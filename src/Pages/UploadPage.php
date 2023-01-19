@@ -24,7 +24,7 @@ class UploadPage
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $fileName = $this->uploadClass->uploadFile();
-        $fileLink = 'http://mail-generator.web/assets/uploaded/'.$fileName;
+        $fileLink = 'https://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
         $json = [
             'fileLink' => $fileLink
         ];
