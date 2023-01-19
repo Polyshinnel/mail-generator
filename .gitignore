@@ -1,0 +1,7 @@
+.idea/
+config/config.php
+vendor/
+tmp/
+composer.lock
+logs/
+public/assets/uploaded
