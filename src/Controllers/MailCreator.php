@@ -33,6 +33,13 @@ class MailCreator
                 $mailBlocks .= $this->mailBlockGenerator->createBanner($img,$link,$alt);
             }
 
+            if($nameBlock == 'banner-common'){
+                $alt = $jsonItem['alt'];
+                $link = $jsonItem['link'];
+                $img = $jsonItem['img'];
+                $mailBlocks .= $this->mailBlockGenerator->createCommonBanner($img,$link,$alt);
+            }
+
             if($nameBlock == 'timer'){
                 $mailBlocks .= $this->mailBlockGenerator->createTimer();
             }

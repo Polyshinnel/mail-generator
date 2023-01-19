@@ -29,6 +29,13 @@
                     <p>Баннер</p>
                 </div>
 
+                <div class="main-sidebar__block" data-block="banner-common">
+                    <div class="main-sidebar__block-image">
+                        <img src="assets/images/icons/8.svg" alt="">
+                    </div>
+                    <p>Баннер(общ)</p>
+                </div>
+
                 <div class="main-sidebar__block" data-block="timer">
                     <div class="main-sidebar__block-image">
                         <img src="assets/images/icons/6.svg" alt="">
@@ -147,6 +154,43 @@
                     </div>
                     <div
                         class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--/banner-->
+
+            <!--banner-->
+            <div class="main-sidebar__block-prop main-sidebar__banner-block" data-block="banner-common">
+                <h4 class="main-sidebar__block-prop-title">Баннер Общий</h4>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    <label class="input-file">
+                        <div class="input-file-block">
+                            <img src="assets/images/icons/1.svg" alt="" class="banner-img">
+                            <input type="file" name="userFile" accept="image/*">
+                            <span>Загрузите изображение</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
+                    <label for="">Ссылка</label>
+                    <input type="text" placeholder="Ссылка">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
+                    <label for="">Alt текст</label>
+                    <input type="text" placeholder="Alt текст">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                         data-btn="banner-common">
+                        <img src="assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                            class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
                         <img src="assets/images/icons/cross.svg" alt="">
                     </div>
                 </div>
@@ -641,9 +685,11 @@
                         <p>Нет информации для рендеринга. Добавьте блоки для отображения результата</p>
                     </div>
                 </div>
-                <div class="btn-block btn-block_blue">
+                <div class="btn-block btn-block_blue code-copy">
                     <p>Скопировать код</p>
                 </div>
+
+                <textarea name="" id="copy-block" cols="30" rows="10"></textarea>
             </div>
         </div>
     </div>

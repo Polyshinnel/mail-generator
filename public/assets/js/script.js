@@ -139,6 +139,44 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 
 	}
 
+	if(btnData === 'banner-common') {
+		imgIcon = 'assets/images/icons/8.svg';
+		nameStructure = 'Баннер - Общий';
+		let bannerImg = $(this).parent().parent().find('.banner-img').attr('src');
+		let link = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-link input').val();
+		let alt = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-alt input').val();
+
+		//upload data to server
+		let url = "/uploadImage";
+		let base64ImageContent = bannerImg.replace(/^data:image\/(png|jpg);base64,/, "");
+		base64ImageContent = base64ImageContent.replace(/^data:image\/jpeg;base64,/, "");
+		let blob = base64ToBlob(base64ImageContent, 'image/png');
+		let formData = new FormData();
+		formData.append('userFile', blob);
+		$.ajax({
+			url: url,
+			type: "POST",
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: formData
+		})
+			.done(function(e){
+				let jsonObj = $.parseJSON(e);
+				let bannerImg = jsonObj.fileLink;
+				let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
+				let structureBlockBody = createStructureBlockBodyOther(bannerImg,btnData,alt,link);
+				structureBlock = createStructure(structureBlockHeader,structureBlockBody,btnData);
+				let structureWrapper = $('.structure-wrapper');
+				structureWrapper.append(structureBlock);
+				structureWrapper.css('display','block');
+				getStructureJson();
+			});
+
+
+	}
+
+
 	if(btnData === 'timer') {
 		imgIcon = 'assets/images/icons/6.svg';
 		nameStructure = 'Таймер';
@@ -332,12 +370,17 @@ function createStructureBlockBodyProducts(productInfo) {
 	return structureBlock;
 }
 
+
 function createStructureBlockBodyOther(data,btnData,alt = null,link = null,delivery=null,discount=null){
 	if(btnData === 'header') {
 		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Monbento</li><li>Mason Cash</li><li>Paola Reinas</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 
 	if(btnData === 'banner') {
+		return '<form action="" method="post" enctype="multipart/form-data"><label class="input-file"><div class="input-file-block"><img src="'+data+'" alt="" class="banner-img" style="width: 75%; height: 75%;"><input type="file" name="file[]" accept="image/*"></div></label></form><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link"><label for="">Ссылка</label><input type="text" placeholder="Ссылка" value="'+link+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt"><label for="">Alt текст</label><input type="text" placeholder="Alt текст" value="'+alt+'"></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="assets/images/icons/cross.svg" alt=""></div></div>';
+	}
+
+	if(btnData === 'banner-common') {
 		return '<form action="" method="post" enctype="multipart/form-data"><label class="input-file"><div class="input-file-block"><img src="'+data+'" alt="" class="banner-img" style="width: 75%; height: 75%;"><input type="file" name="file[]" accept="image/*"></div></label></form><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link"><label for="">Ссылка</label><input type="text" placeholder="Ссылка" value="'+link+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt"><label for="">Alt текст</label><input type="text" placeholder="Alt текст" value="'+alt+'"></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 
@@ -388,7 +431,21 @@ function getStructureJson() {
 			structureArr.push(structureItem);
 		}
 
+
 		if(structureName === 'banner') {
+			let img = $(this).find('.banner-img').attr('src');
+			let link = $(this).find('.main-sidebar__block-prop-input_banner-link input').val();
+			let alt = $(this).find('.main-sidebar__block-prop-input_banner-alt input').val();
+			let structureItem = {
+				blockName: structureName,
+				img: img,
+				link: link,
+				alt: alt
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'banner-common') {
 			let img = $(this).find('.banner-img').attr('src');
 			let link = $(this).find('.main-sidebar__block-prop-input_banner-link input').val();
 			let alt = $(this).find('.main-sidebar__block-prop-input_banner-alt input').val();
@@ -496,6 +553,20 @@ function getStructureJson() {
 			$('.main-render__mail-block-empty').remove();
 			$('.main-render__mail-block').empty();
 			$('.main-render__mail-block').append(data);
+			$('#copy-block').val('');
+			$('#copy-block').val(data);
 		}
 	});
 }
+
+
+$('.code-copy').click(function(){
+	let copyText = $('#copy-block').val();
+	let copyText2 = document.createElement('textarea');
+	copyText2.value = copyText;
+	document.body.appendChild(copyText2);
+	copyText2.select();
+	document.execCommand("copy");
+	document.body.removeChild(copyText2);
+	alert('Успешно скопировано!');
+})

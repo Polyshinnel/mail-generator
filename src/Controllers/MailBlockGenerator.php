@@ -527,5 +527,18 @@ class MailBlockGenerator
         return '<tr align="center" valign="top"><td>'.$blockData.'</td></tr>';
     }
 
+    public function createCommonBanner($imgLink,$bannerLink,$name) {
+        $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
+                <tr valign="middle">
+                  <td align="center">
+                    <a href="'.$bannerLink.'"
+                      style="text-decoration: none;">
+                      <img src="'.$imgLink.'" alt="'.$name.'" width="540" height="407">
+                    </a>
+                  </td>
+                </tr>
+              </table>';
+        return '<tr align="center" valign="top"><td>'.$blockData.'</td></tr>';
+    }
 
 }

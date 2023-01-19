@@ -136,7 +136,7 @@ body{
     .main-render__mail-block{
         margin-top: 20px;
         width: 100%;
-        height: 700px;
+        height: 675px;
         background-color: #fff;
         overflow-y: auto;
 
@@ -505,4 +505,23 @@ body{
     .structure-block-body{
         display: none;
     }
+}
+
+#copy-block{
+    display: none;
+}
+
+.code-copy{
+    width: 205px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-transform: uppercase;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    background: #6D5BD0;
+    border-radius: 5px;
 }
