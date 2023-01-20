@@ -7,6 +7,7 @@ namespace App\Controllers;
 class ImageProcessing
 {
     private $filePath = __DIR__.'/../../public/assets/uploaded/';
+    private $editedPath = __DIR__.'/../../public/assets/edited/';
 
     public function createWideImage(String $fileName){
         $maxSize = [
@@ -19,10 +20,7 @@ class ImageProcessing
             'height' => 370
         ];
 
-        $this->cropImage($fileName);
-        $this->createResampledImage($fileName,$imageSize,$maxSize);
-        $this->addGrayFilter($fileName,$imageSize);
-        return 'http://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        return $this->finishedImage($fileName,$imageSize,$maxSize);
     }
 
     public function createBigImage($fileName) {
@@ -36,10 +34,7 @@ class ImageProcessing
             'height' => 350
         ];
 
-        $this->cropImage($fileName);
-        $this->createResampledImage($fileName,$imageSize,$maxSize);
-        $this->addGrayFilter($fileName,$imageSize);
-        return 'http://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        return $this->finishedImage($fileName,$imageSize,$maxSize);
     }
 
     public function createMediumImage($fileName){
@@ -53,10 +48,7 @@ class ImageProcessing
             'height' => 256
         ];
 
-        $this->cropImage($fileName);
-        $this->createResampledImage($fileName,$imageSize,$maxSize);
-        $this->addGrayFilter($fileName,$imageSize);
-        return 'http://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        return $this->finishedImage($fileName,$imageSize,$maxSize);
     }
 
     public function createSmallImage($fileName){
@@ -70,10 +62,7 @@ class ImageProcessing
             'height' => 162
         ];
 
-        $this->cropImage($fileName);
-        $this->createResampledImage($fileName,$imageSize,$maxSize);
-        $this->addGrayFilter($fileName,$imageSize);
-        return 'http://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        return $this->finishedImage($fileName,$imageSize,$maxSize);
     }
 
     private function getImageSize(String $filename) {
@@ -104,12 +93,14 @@ class ImageProcessing
 
         $coefficient = $this->getCoefficient($size,$maxSize);
 
+
         //Resized image
         $path = $this->filePath.$filename;
+        $editedPath = $this->editedPath.$filename;
         $newImage = imagecreatetruecolor($size['width']*$coefficient,$size['height']*$coefficient);
         $image = imagecreatefromjpeg($path);
         imagecopyresampled($newImage,$image,0,0,0,0,$size['width']*$coefficient,$size['height']*$coefficient,$size['width'],$size['height']);
-        imagejpeg($newImage,$path);
+        imagejpeg($newImage,$editedPath);
         imagedestroy($image);
         imagedestroy($newImage);
 
@@ -117,18 +108,18 @@ class ImageProcessing
         $imgDest = imagecreatetruecolor($imageSize['width'],$imageSize['height']);
         $white = imagecolorallocate($imgDest,255,255,255);
         imageFilledRectangle($imgDest,0,0,$imageSize['width'],$imageSize['height'],$white);
-        $imgSite = imagecreatefromjpeg($path);
+        $imgSite = imagecreatefromjpeg($editedPath);
         $x = ($imageSize['width'] - ($size['width']*$coefficient))/2;
         $y = ($imageSize['height'] - ($size['height']*$coefficient))/2;
         //Порядок аргументов: куда копируем, что копируем, на сколько двигаем по х, на сколько двигаем по y, ширина и выоста исходного изображения
         imagecopy($imgDest,$imgSite,$x,$y,0,0,$size['width']*$coefficient,$size['height']*$coefficient);
-        imagejpeg($imgDest,$path);
+        imagejpeg($imgDest,$editedPath);
         imagedestroy($imgSite);
         imagedestroy($imgDest);
     }
 
     private function addGrayFilter(String $filename,array $imageSize) {
-        $path = $this->filePath.$filename;
+        $path = $this->editedPath.$filename;
         $imgDest = imagecreatetruecolor($imageSize['width'],$imageSize['height']);
         imagesavealpha($imgDest,true);
         $filter = imagecolorallocatealpha($imgDest,0,0,0,122);
@@ -140,7 +131,7 @@ class ImageProcessing
         imagedestroy($imgDest);
     }
 
-    private function cropImage(String $filename) {
+    public function cropImage(String $filename) {
         $path = $this->filePath.$filename;
         $img = imagecreatefromjpeg($path);
         $rgb = hexdec('ffffff');
@@ -149,4 +140,12 @@ class ImageProcessing
         imagedestroy($img);
         imagedestroy($cropped);
     }
+
+    private function finishedImage($fileName,$imageSize,$maxSize) {
+        $this->createResampledImage($fileName,$imageSize,$maxSize);
+        $this->addGrayFilter($fileName,$imageSize);
+        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+        return $protocol.$_SERVER['HTTP_HOST'].'/assets/edited/'.$fileName;
+    }
+
 }

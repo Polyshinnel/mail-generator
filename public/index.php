@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use App\Models\Database;
 
 require __DIR__ . '/../vendor/autoload.php';

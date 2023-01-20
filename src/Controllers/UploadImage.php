@@ -6,6 +6,13 @@ namespace App\Controllers;
 
 class UploadImage
 {
+    private $imageProcessing;
+
+    public function __construct(ImageProcessing $imageProcessing)
+    {
+        $this->imageProcessing = $imageProcessing;
+    }
+
     public function uploadFile() {
         $uploadDir = __DIR__.'/../../public/assets/uploaded/';
         $fileName = Date('dmYHis').'.jpg';
@@ -19,7 +26,7 @@ class UploadImage
         $fileName = Date('dmYHis').'.jpg';
         $uploadFile = $uploadDir.$fileName;
         file_put_contents($uploadFile, file_get_contents($link));
-
+        $this->imageProcessing->cropImage($fileName);
         return $fileName;
     }
 }

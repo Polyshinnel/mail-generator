@@ -5,3 +5,4 @@ tmp/
 composer.lock
 logs/
 public/assets/uploaded
+public/assets/edited

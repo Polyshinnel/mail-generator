@@ -231,12 +231,13 @@ class MailBlockGenerator
 
         if($nameBlock == 'single-product') {
             $product = $productsBlock['products'][0];
+            $dataProduct = $this->uploadDataToCache($product);
+
             $link = $product['link'];
             $price = $product['price'];
             $newPrice = $product['newPrice'];
-            $productInfo = $this->parser->getMonbentoData($link);
-            $productName = $productInfo['productName'];
-            $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+            $productName = $dataProduct['name'];
+            $fileName = $dataProduct['filename'];
             $productImg = $this->imageProcessing->createWideImage($fileName);
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
@@ -269,9 +270,12 @@ class MailBlockGenerator
                 $link = $product['link'];
                 $price = $product['price'];
                 $newPrice = $product['newPrice'];
-                $productInfo = $this->parser->getMonbentoData($link);
-                $productName = $productInfo['productName'];
-                $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+
+                $dataProduct = $this->uploadDataToCache($product);
+                $productName = $dataProduct['name'];
+                $fileName = $dataProduct['filename'];
+
+
                 $productImg = $this->imageProcessing->createMediumImage($fileName);
                 $productsArr[] = [
                     'name' => $productName,
@@ -330,9 +334,12 @@ class MailBlockGenerator
                 $link = $product['link'];
                 $price = $product['price'];
                 $newPrice = $product['newPrice'];
-                $productInfo = $this->parser->getMonbentoData($link);
-                $productName = $productInfo['productName'];
-                $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+
+
+                $dataProduct = $this->uploadDataToCache($product);
+                $productName = $dataProduct['name'];
+                $fileName = $dataProduct['filename'];
+
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,
@@ -392,9 +399,11 @@ class MailBlockGenerator
                 $link = $product['link'];
                 $price = $product['price'];
                 $newPrice = $product['newPrice'];
-                $productInfo = $this->parser->getMonbentoData($link);
-                $productName = $productInfo['productName'];
-                $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+
+                $dataProduct = $this->uploadDataToCache($product);
+                $productName = $dataProduct['name'];
+                $fileName = $dataProduct['filename'];
+
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,
@@ -454,9 +463,11 @@ class MailBlockGenerator
                 $link = $product['link'];
                 $price = $product['price'];
                 $newPrice = $product['newPrice'];
-                $productInfo = $this->parser->getMonbentoData($link);
-                $productName = $productInfo['productName'];
-                $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+
+                $dataProduct = $this->uploadDataToCache($product);
+                $productName = $dataProduct['name'];
+                $fileName = $dataProduct['filename'];
+
                 $productImg = $this->imageProcessing->createSmallImage($fileName);
                 $productsArr[] = [
                     'name' => $productName,
@@ -539,6 +550,30 @@ class MailBlockGenerator
                 </tr>
               </table>';
         return '<tr align="center" valign="top"><td>'.$blockData.'</td></tr>';
+    }
+
+    private function uploadDataToCache($productItem) {
+        $link = $productItem['link'];
+
+        if(!empty($_SESSION[$link])) {
+            return $_SESSION[$link];
+        }
+
+        $productInfo = $this->parser->getMonbentoData($link);
+        $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
+
+        $_SESSION[$link] = [
+            'link' => $link,
+            'name' => $productInfo['productName'],
+            'filename' => $fileName
+        ];
+
+
+        return [
+            'link' => $link,
+            'name' => $productInfo['productName'],
+            'filename' => $fileName
+        ];
     }
 
 }

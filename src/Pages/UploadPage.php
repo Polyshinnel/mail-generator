@@ -24,7 +24,8 @@ class UploadPage
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $fileName = $this->uploadClass->uploadFile();
-        $fileLink = 'https://'.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+        $fileLink = $protocol.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
         $json = [
             'fileLink' => $fileLink
         ];
