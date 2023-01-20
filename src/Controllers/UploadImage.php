@@ -23,7 +23,7 @@ class UploadImage
 
     public function uploadFileFromLink($link) {
         $uploadDir = __DIR__.'/../../public/assets/uploaded/';
-        $fileName = Date('dmYHis').'.jpg';
+        $fileName = Date('dmYHis').'.png';
         $uploadFile = $uploadDir.$fileName;
         file_put_contents($uploadFile, file_get_contents($link));
         $this->imageProcessing->cropImage($fileName);

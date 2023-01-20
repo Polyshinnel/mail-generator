@@ -87,7 +87,9 @@ class MailBlockGenerator
     }
 
     public function createHeader($siteName){
-        $imgAdd = 'http://'.$_SERVER['HTTP_HOST'].'/assets/';
+        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+
+        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
         $siteInfo = $this->siteArr[$siteName];
         return '<tr>
             <td>
@@ -114,7 +116,9 @@ class MailBlockGenerator
     }
 
     public function createFooter($siteName,$delivery,$discount){
-        $imgAdd = 'http://'.$_SERVER['HTTP_HOST'].'/assets/';
+        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
+
         $siteInfo = $this->siteArr[$siteName];
         return '<tr align="center" valign="top" class="copyright"
             style="font-size: 12px; line-height: 25px; text-align: center;">
@@ -217,7 +221,8 @@ class MailBlockGenerator
     }
 
     public function createTimer(){
-        $imgAdd = 'http://'.$_SERVER['HTTP_HOST'].'/assets/';
+        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
         return '<tr>
             <td align="center">
               <img src="'.$imgAdd.'images/mailadds/timer.jpg" width="540" height="87" />
@@ -239,6 +244,18 @@ class MailBlockGenerator
             $productName = $dataProduct['name'];
             $fileName = $dataProduct['filename'];
             $productImg = $this->imageProcessing->createWideImage($fileName);
+
+            if(!empty($product['sale'])){
+                $salesArr = $product['sale'];
+                for($i = 0; $i < count($salesArr);$i++){
+                    $offset = $i*62;
+                    $color = $salesArr[$i]['color'];
+                    $text = $salesArr[$i]['text'];
+                    $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                }
+            }
+
+            $productImg .= '?ver='.time();
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
@@ -277,6 +294,19 @@ class MailBlockGenerator
 
 
                 $productImg = $this->imageProcessing->createMediumImage($fileName);
+
+                if(!empty($product['sale'])){
+                    $salesArr = $product['sale'];
+                    for($i = 0; $i < count($salesArr);$i++){
+                        $offset = $i*62;
+                        $color = $salesArr[$i]['color'];
+                        $text = $salesArr[$i]['text'];
+                        $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                    }
+                }
+
+                $productImg .= '?ver='.time();
+
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,
@@ -350,7 +380,34 @@ class MailBlockGenerator
             }
 
             $imgOne = $this->imageProcessing->createBigImage($productsArr[0]['filename']);
+            if(!empty($productsArr[0]['sale'])){
+                $salesArr = $productsArr[0]['sale'];
+                $fileName = $productsArr[0]['filename'];
+                for($i = 0; $i < count($salesArr);$i++){
+                    $offset = $i*62;
+                    $color = $salesArr[$i]['color'];
+                    $text = $salesArr[$i]['text'];
+                    $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                }
+            }
+
+            $imgOne .= '?ver='.time();
+
             $imgTwo = $this->imageProcessing->createSmallImage($productsArr[1]['filename']);
+
+            if(!empty($productsArr[1]['sale'])){
+                $salesArr = $productsArr[1]['sale'];
+                $fileName = $productsArr[1]['filename'];
+
+                for($i = 0; $i < count($salesArr);$i++){
+                    $offset = $i*62;
+                    $color = $salesArr[$i]['color'];
+                    $text = $salesArr[$i]['text'];
+                    $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                }
+            }
+
+            $imgTwo .= '?ver='.time();
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
@@ -414,7 +471,37 @@ class MailBlockGenerator
             }
 
             $imgOne = $this->imageProcessing->createSmallImage($productsArr[0]['filename']);
+
+            if(!empty($productsArr[0]['sale'])){
+                $salesArr = $productsArr[0]['sale'];
+                $fileName = $productsArr[0]['filename'];
+
+                for($i = 0; $i < count($salesArr);$i++){
+                    $offset = $i*62;
+                    $color = $salesArr[$i]['color'];
+                    $text = $salesArr[$i]['text'];
+                    $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                }
+            }
+
+            $imgOne .= '?ver='.time();
+
             $imgTwo = $this->imageProcessing->createBigImage($productsArr[1]['filename']);
+
+            if(!empty($productsArr[1]['sale'])){
+                $salesArr = $productsArr[1]['sale'];
+                $fileName = $productsArr[1]['filename'];
+
+                for($i = 0; $i < count($salesArr);$i++){
+                    $offset = $i*62;
+                    $color = $salesArr[$i]['color'];
+                    $text = $salesArr[$i]['text'];
+                    $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                }
+            }
+
+            $imgTwo .= '?ver='.time();
+
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
@@ -469,6 +556,19 @@ class MailBlockGenerator
                 $fileName = $dataProduct['filename'];
 
                 $productImg = $this->imageProcessing->createSmallImage($fileName);
+
+                if(!empty($product['sale'])){
+                    $salesArr = $product['sale'];
+                    for($i = 0; $i < count($salesArr);$i++){
+                        $offset = $i*62;
+                        $color = $salesArr[$i]['color'];
+                        $text = $salesArr[$i]['text'];
+                        $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
+                    }
+                }
+
+                $productImg .= '?ver='.time();
+
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,

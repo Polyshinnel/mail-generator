@@ -85,6 +85,7 @@ $('.main-sidebar__block-prop-select-list li').click(function(){
 
 $(document).on('click','.main-sidebar__block-prop-btn_accept_add',function(){
 	$(this).parent().parent().slideUp();
+	getStructureJson();
 })
 
 $('.main-sidebar__block-prop-btn_accept-main').click(function(){
