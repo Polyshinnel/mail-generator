@@ -571,3 +571,29 @@ $('.code-copy').click(function(){
 	document.body.removeChild(copyText2);
 	alert('Успешно скопировано!');
 })
+
+$('.send-auth').click(function(){
+	let user = $('#name').val();
+	let pass = $('#pass').val();
+
+	$.ajax({
+		url: '/authData',
+		method: 'post',
+		dataType: 'html',
+		data: {
+			'name': user,
+			'pass': pass
+		},
+		success: function(data){
+			let json = $.parseJSON(data);
+			let answer = json.result;
+			if(answer === 'AuthSuccess') {
+				window.location.href = '/';
+			} else {
+				let errBlock = $('.err-text');
+				errBlock.css('display','block');
+				errBlock.html(answer);
+			}
+		}
+	});
+});

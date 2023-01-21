@@ -1,0 +1,32 @@
+{% extends 'base-auth.twig' %}
+
+{% block body %}
+
+<div class="auth-wrapper">
+    <div class="auth-block">
+        <div class="auth-block__logo">
+            <img src="/assets/images/logo.png" alt="">
+        </div>
+        <div class="auth-block__title">
+            <h1>Авторизация</h1>
+            <p>Введите ваш логин и пароль</p>
+        </div>
+        <div class="auth-block__form">
+            <div class="auth-block__form-input">
+                <label for="name">Логин</label>
+                <input type="text" name="name" id="name" placeholder="Логин">
+            </div>
+
+            <div class="auth-block__form-input">
+                <label for="pass">Пароль</label>
+                <input type="password" name="pass" id="pass" placeholder="Пароль">
+            </div>
+
+            <input class="send-auth" type="submit" value="Отправить">
+
+            <p class="err-text">Ошибка авторизации</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

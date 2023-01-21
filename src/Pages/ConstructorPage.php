@@ -3,6 +3,7 @@
 
 namespace App\Pages;
 
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Factory\StreamFactory;
@@ -10,7 +11,7 @@ use Slim\Psr7\Headers;
 use Slim\Psr7\Response;
 use Slim\Views\Twig;
 
-class IndexPage
+class ConstructorPage
 {
     private $twig;
 
@@ -21,8 +22,8 @@ class IndexPage
 
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $data = $this->twig->fetch('index.twig', [
-            'title' => 'Главная',
+        $data = $this->twig->fetch('constructor.twig', [
+            'title' => 'Конструктор писем',
         ]);
 
         return new Response(
