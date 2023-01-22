@@ -27,8 +27,6 @@ class TemplatesPage
     {
         $templates = $this->templatesController->getAllRepository();
 
-        $this->templatesController->updateImg('1');
-
         $data = $this->twig->fetch('templates.twig', [
             'title' => 'Шаблоны',
             'templates' => $templates
