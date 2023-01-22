@@ -30,4 +30,11 @@ class TemplateRepository
     public function deleteTemplateById($id):void {
         $this->templateModel::where('id',$id)->delete();
     }
+
+    public function updateTemplateById($id,$data,$column) {
+        $updateArr = [
+            $column => $data
+        ];
+        $this->templateModel::where('id',$id)->update($updateArr);
+    }
 }
