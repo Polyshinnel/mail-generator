@@ -603,6 +603,7 @@ body{
             border-radius: 10px;
             border: none;
             color: #fff;
+            cursor: pointer;
         }
 
         .err-text{
@@ -644,6 +645,75 @@ body{
                 margin-top: 30px;
                 text-transform: uppercase;
             }
+        }
+    }
+}
+
+.empty-template{
+    p{
+        font-size: 14px;
+        width: 340px;
+    }
+
+    .empty-template__link{
+        display: flex;
+        margin-top: 20px;
+        text-decoration: none;
+        
+        button{
+            width: 210px;
+            height: 40px;
+            background: #6D5BD0;
+            color: #fff;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    }
+}
+
+.template-item__link{
+    display: flex;
+    margin-left: 42px;
+    text-decoration: none;
+
+    .template-item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 270px;
+        height: 220px;
+
+        background: #fff;
+        border: 1px solid #6D5BD0;
+        border-radius: 10px;
+
+        .template-item__img-box{
+            width: 122px;
+            height: 122px;
+
+            img{
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        h4{
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+        }
+
+        p{
+            margin-top: 10px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
         }
     }
 }

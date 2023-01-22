@@ -1,0 +1,26 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <div class="index-wrapper">
+        {% if templates %}
+            {% for template in templates %}
+                <a href="/templates/template/{{ template.id }}" class="template-item__link">
+                    <div class="template-item">
+                        <div class="template-item__img-box">
+                            <img src="{{ template.img }}" alt="">
+                        </div>
+                        <h4>{{ template.name }}</h4>
+                        <p>{{ template.date_create }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="empty-template">
+                <p>К сожалению на данном моменте нет ни одного созданного шаблона</p>
+                <a href="/constructor" class="empty-template__link">
+                    <button>Создать шаблон</button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

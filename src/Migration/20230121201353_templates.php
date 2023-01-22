@@ -13,7 +13,7 @@ final class Templates extends Migration
             $table->string('name','127');
             $table->string('img','256');
             $table->date('date_create');
-            $table->text('json');
+            $table->json('json');
         });
     }
     public function down()

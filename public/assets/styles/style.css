@@ -552,6 +552,7 @@ body {
   border-radius: 10px;
   border: none;
   color: #fff;
+  cursor: pointer;
 }
 .auth-block .auth-block__form .err-text {
   margin-top: 15px;
@@ -587,4 +588,63 @@ body {
   color: #333;
   margin-top: 30px;
   text-transform: uppercase;
+}
+
+.empty-template p {
+  font-size: 14px;
+  width: 340px;
+}
+.empty-template .empty-template__link {
+  display: flex;
+  margin-top: 20px;
+  text-decoration: none;
+}
+.empty-template .empty-template__link button {
+  width: 210px;
+  height: 40px;
+  background: #6D5BD0;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.template-item__link {
+  display: flex;
+  margin-left: 42px;
+  text-decoration: none;
+}
+.template-item__link .template-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 270px;
+  height: 220px;
+  background: #fff;
+  border: 1px solid #6D5BD0;
+  border-radius: 10px;
+}
+.template-item__link .template-item .template-item__img-box {
+  width: 122px;
+  height: 122px;
+}
+.template-item__link .template-item .template-item__img-box img {
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.template-item__link .template-item h4 {
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+}
+.template-item__link .template-item p {
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
 }/*# sourceMappingURL=style.css.map */
