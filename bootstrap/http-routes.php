@@ -24,5 +24,5 @@ return static function (App $app): void {
     $app->post('/authData',[AuthPage::class,'authorize']);
     $app->post('/uploadImage',[UploadPage::class,'get']);
     $app->post('/generateMail',[GenerateMailPage::class,'get']);
-    $app->get('templates/views/{id}',[TemplateViewPage::class,'get']);
+    $app->get('/templates/views/{id}',[TemplateViewPage::class,'get']);
 };
