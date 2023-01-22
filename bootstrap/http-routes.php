@@ -17,11 +17,12 @@ return static function (App $app): void {
         $group->get('constructor',[ConstructorPage::class,'get']);
         $group->get('templates',[TemplatesPage::class,'get']);
         $group->get('templates/template/{id}',[TemplatesPage::class,'get']);
-        $group->get('templates/views/{id}',[TemplateViewPage::class,'get']);
+
     })->add(BasicAuthMiddleware::class);
 
     $app->get('/auth',[AuthPage::class,'get']);
     $app->post('/authData',[AuthPage::class,'authorize']);
     $app->post('/uploadImage',[UploadPage::class,'get']);
     $app->post('/generateMail',[GenerateMailPage::class,'get']);
+    $app->get('templates/views/{id}',[TemplateViewPage::class,'get']);
 };
