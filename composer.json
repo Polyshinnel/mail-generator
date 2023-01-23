@@ -26,6 +26,7 @@
         "simplehtmldom/simplehtmldom": "^2.0@RC",
         "ext-curl": "*",
         "ext-gd": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "microweber/screen": "^1.0"
     }
 }

@@ -1,0 +1,1197 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<main>
+    <div class="main-wrapper">
+        <div class="main-sidebar">
+            <div class="main-sidebar__header">
+                <div class="main-sidebar__header-btn" data-item="blocks">
+                    <p>Блоки</p>
+                </div>
+                <div class="main-sidebar__header-btn main-sidebar__header-btn_active" data-item="structure">
+                    <p>Структура</p>
+                </div>
+            </div>
+
+            <div class="main-sidebar__blocks" style="display:none;">
+                <div class="main-sidebar__block" data-block="header">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/9.svg" alt="">
+                    </div>
+                    <p>Header</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="banner">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/8.svg" alt="">
+                    </div>
+                    <p>Баннер</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="banner-common">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/8.svg" alt="">
+                    </div>
+                    <p>Баннер(общ)</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="timer">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/6.svg" alt="">
+                    </div>
+                    <p>Таймер</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="single-product">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/1.svg" alt="">
+                    </div>
+                    <p>1 товар</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="two-product">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/5.svg" alt="">
+                    </div>
+                    <p>2 товара</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="two-product-2">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/10.svg" alt="">
+                    </div>
+                    <p>2 товара</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="two-product-3">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/2.svg" alt="">
+                    </div>
+                    <p>2 товара</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="three-product">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/4.svg" alt="">
+                    </div>
+                    <p>3 товара</p>
+                </div>
+
+                <div class="main-sidebar__block" data-block="footer">
+                    <div class="main-sidebar__block-image">
+                        <img src="/assets/images/icons/3.svg" alt="">
+                    </div>
+                    <p>footer</p>
+                </div>
+            </div>
+
+            <!--block for append elements-->
+            <div class="structure-wrapper" style="display:block;">
+                {% for jsonItem in json %}
+                {% if jsonItem.blockName == 'header' %}
+                <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/9.svg" alt="">
+                            </div>
+                            <p>Header</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        <div class="main-sidebar__block-prop-select">
+                            <div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text"
+                                    value="{{ jsonItem.siteName }}" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div>
+                            <ul class="main-sidebar__block-prop-select-list">
+                                <li>Monbento</li>
+                                <li>Mason Cash</li>
+                                <li>Paola Reinas</li>
+                            </ul>
+                        </div>
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'banner' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/8.svg" alt="">
+                            </div>
+                            <p>Баннер</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        <form action="" method="post" enctype="multipart/form-data"><label class="input-file">
+                                <div class="input-file-block"><img src="{{ jsonItem.img }}" alt="" class="banner-img"
+                                        style="width: 75%; height: 75%;"><input type="file" name="file[]"
+                                        accept="image/*"></div>
+                            </label></form>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
+                            <label for="">Ссылка</label><input type="text" placeholder="Ссылка" value="{{ jsonItem.link }}">
+                        </div>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
+                            <label for="">Alt текст</label><input type="text" placeholder="Alt текст" value="{{ jsonItem.alt }}">
+                        </div>
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'banner-common' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/8.svg" alt="">
+                            </div>
+                            <p>Баннер(общ)</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        <form action="" method="post" enctype="multipart/form-data"><label class="input-file">
+                                <div class="input-file-block"><img src="{{ jsonItem.img }}" alt="" class="banner-img"
+                                        style="width: 75%; height: 75%;"><input type="file" name="file[]"
+                                        accept="image/*"></div>
+                            </label></form>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
+                            <label for="">Ссылка</label><input type="text" placeholder="Ссылка" value="{{ jsonItem.link }}">
+                        </div>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
+                            <label for="">Alt текст</label><input type="text" placeholder="Alt текст" value="{{ jsonItem.alt }}">
+                        </div>
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'timer' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/6.svg" alt="">
+                            </div>
+                            <p>Таймер</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        <div class="main-sidebar__block-prop-input"><label for="">Время действия таймера</label><input
+                                type="text" value="{{ jsonItem.timer }}"></div>
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'single-product' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/1.svg" alt="">
+                            </div>
+                            <p>1 товар</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        {% for product in jsonItem.products %}
+                            <div class="main-sidebar__product">
+                                <div class="main-sidebar__product-wrapper">
+                                    <div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input
+                                                type="text" placeholder="Ссылка на товар" value="{{ product.link }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Текущая цена</label><input type="text" placeholder="Текущая цена"
+                                                                                  value="{{ product.price }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Новая цена</label><input type="text" placeholder="Новая цена"
+                                                                                value="{{ product.newPrice }}"></div>
+                                </div>
+                                <div class="sale-block">
+                                    <h4>Скидки</h4>
+                                    <div class="sale-block__wrapper">
+                                        {% for sale in product.sale %}
+                                            <div class="sale-block__item">
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Размер скидки</label>
+                                                    <input type="text" placeholder="10%" value="{{ sale.text }}">
+                                                </div>
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Цвет HEX</label>
+                                                    <input type="text" placeholder="#ff0000" value="{{ sale.color }}">
+                                                </div>
+                                                <img src="/assets/images/icons/cross.svg" alt="" class="remove-sale">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="sale-block__btn">
+                                        <p>Добавить скидку</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'two-product' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/5.svg" alt="">
+                            </div>
+                            <p>2 товара</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        {% for product in jsonItem.products %}
+                            <div class="main-sidebar__product">
+                                <div class="main-sidebar__product-wrapper">
+                                    <div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input
+                                                type="text" placeholder="Ссылка на товар" value="{{ product.link }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Текущая цена</label><input type="text" placeholder="Текущая цена"
+                                                                                  value="{{ product.price }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Новая цена</label><input type="text" placeholder="Новая цена"
+                                                                                value="{{ product.newPrice }}"></div>
+                                </div>
+                                <div class="sale-block">
+                                    <h4>Скидки</h4>
+                                    <div class="sale-block__wrapper">
+                                        {% for sale in product.sale %}
+                                            <div class="sale-block__item">
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Размер скидки</label>
+                                                    <input type="text" placeholder="10%" value="{{ sale.text }}">
+                                                </div>
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Цвет HEX</label>
+                                                    <input type="text" placeholder="#ff0000" value="{{ sale.color }}">
+                                                </div>
+                                                <img src="/assets/images/icons/cross.svg" alt="" class="remove-sale">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="sale-block__btn">
+                                        <p>Добавить скидку</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'two-product-1' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/10.svg" alt="">
+                            </div>
+                            <p>2 товара</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        {% for product in jsonItem.products %}
+                            <div class="main-sidebar__product">
+                                <div class="main-sidebar__product-wrapper">
+                                    <div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input
+                                                type="text" placeholder="Ссылка на товар" value="{{ product.link }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Текущая цена</label><input type="text" placeholder="Текущая цена"
+                                                                                  value="{{ product.price }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Новая цена</label><input type="text" placeholder="Новая цена"
+                                                                                value="{{ product.newPrice }}"></div>
+                                </div>
+                                <div class="sale-block">
+                                    <h4>Скидки</h4>
+                                    <div class="sale-block__wrapper">
+                                        {% for sale in product.sale %}
+                                            <div class="sale-block__item">
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Размер скидки</label>
+                                                    <input type="text" placeholder="10%" value="{{ sale.text }}">
+                                                </div>
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Цвет HEX</label>
+                                                    <input type="text" placeholder="#ff0000" value="{{ sale.color }}">
+                                                </div>
+                                                <img src="/assets/images/icons/cross.svg" alt="" class="remove-sale">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="sale-block__btn">
+                                        <p>Добавить скидку</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'two-product-2' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/2.svg" alt="">
+                            </div>
+                            <p>2 товара</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        {% for product in jsonItem.products %}
+                            <div class="main-sidebar__product">
+                                <div class="main-sidebar__product-wrapper">
+                                    <div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input
+                                                type="text" placeholder="Ссылка на товар" value="{{ product.link }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Текущая цена</label><input type="text" placeholder="Текущая цена"
+                                                                                  value="{{ product.price }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                                for="">Новая цена</label><input type="text" placeholder="Новая цена"
+                                                                                value="{{ product.newPrice }}"></div>
+                                </div>
+                                <div class="sale-block">
+                                    <h4>Скидки</h4>
+                                    <div class="sale-block__wrapper">
+                                        {% for sale in product.sale %}
+                                            <div class="sale-block__item">
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Размер скидки</label>
+                                                    <input type="text" placeholder="10%" value="{{ sale.text }}">
+                                                </div>
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Цвет HEX</label>
+                                                    <input type="text" placeholder="#ff0000" value="{{ sale.color }}">
+                                                </div>
+                                                <img src="/assets/images/icons/cross.svg" alt="" class="remove-sale">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="sale-block__btn">
+                                        <p>Добавить скидку</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'three-product' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/4.svg" alt="">
+                            </div>
+                            <p>3 товара</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        {% for product in jsonItem.products %}
+                            <div class="main-sidebar__product">
+                                <div class="main-sidebar__product-wrapper">
+                                    <div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input
+                                            type="text" placeholder="Ссылка на товар" value="{{ product.link }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                            for="">Текущая цена</label><input type="text" placeholder="Текущая цена"
+                                            value="{{ product.price }}"></div>
+                                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label
+                                            for="">Новая цена</label><input type="text" placeholder="Новая цена"
+                                            value="{{ product.newPrice }}"></div>
+                                </div>
+                                <div class="sale-block">
+                                    <h4>Скидки</h4>
+                                    <div class="sale-block__wrapper">
+                                        {% for sale in product.sale %}
+                                            <div class="sale-block__item">
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Размер скидки</label>
+                                                    <input type="text" placeholder="10%" value="{{ sale.text }}">
+                                                </div>
+                                                <div class="sale-block__item-unit">
+                                                    <label for="">Цвет HEX</label>
+                                                    <input type="text" placeholder="#ff0000" value="{{ sale.color }}">
+                                                </div>
+                                                <img src="/assets/images/icons/cross.svg" alt="" class="remove-sale">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="sale-block__btn">
+                                        <p>Добавить скидку</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                    class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if jsonItem.blockName == 'footer' %}
+                    <div class="structure-block" data-structure="{{ jsonItem.blockName }}">
+                    <div class="structure-block-header">
+                        <div class="structure-block-header__name">
+                            <div class="structure-block-header__name-img">
+                                <img src="/assets/images/icons/3.svg" alt="">
+                            </div>
+                            <p>footer</p>
+                        </div>
+                        <img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow">
+                    </div>
+                    <div class="structure-block-body">
+                        <div class="main-sidebar__block-prop-select">
+                            <div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text"
+                                    value="{{ jsonItem.siteName }}" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div>
+                            <ul class="main-sidebar__block-prop-select-list">
+                                <li>Monbento</li>
+                                <li>Mason Cash</li>
+                                <li>Paola Reinas</li>
+                            </ul>
+                        </div>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_delivery">
+                            <label for="">Ссылка на доставку</label><input type="text" placeholder="Ссылка на доставку"
+                                value="{{ jsonItem.delivery }}">
+                        </div>
+                        <div
+                            class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_discount">
+                            <label for="">Ссылка на скидку</label><input type="text" placeholder="Ссылка на скидку"
+                                value="{{ jsonItem.discount }}">
+                        </div>
+                        <div class="main-sidebar__block-prop-btns">
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add">
+                                <img src="/assets/images/icons/save.svg" alt="">
+                            </div>
+                            <div
+                                class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add">
+                                <img src="/assets/images/icons/cross.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <!--/block for append elements-->
+
+            <!--blocks for mail gen-->
+
+            <!--header-->
+            <div class="main-sidebar__block-prop main-sidebar__header-block" data-block="header">
+                <h4 class="main-sidebar__block-prop-title">Header</h4>
+                <div class="main-sidebar__block-prop-select">
+                    <div class="main-sidebar__block-prop-input">
+                        <label for="">Сайт</label>
+                        <input type="text" value="Monbento" readonly>
+                        <img src="/assets/images/icons/triangle.svg" alt="">
+                    </div>
+                    <ul class="main-sidebar__block-prop-select-list">
+                        <li>Monbento</li>
+                        <li>Mason Cash</li>
+                        <li>Paola Reinas</li>
+                    </ul>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="header">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <!--/header-->
+
+            <!--banner-->
+            <div class="main-sidebar__block-prop main-sidebar__banner-block" data-block="banner">
+                <h4 class="main-sidebar__block-prop-title">Баннер</h4>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    <label class="input-file">
+                        <div class="input-file-block">
+                            <img src="/assets/images/icons/1.svg" alt="" class="banner-img">
+                            <input type="file" name="userFile" accept="image/*">
+                            <span>Загрузите изображение</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
+                    <label for="">Ссылка</label>
+                    <input type="text" placeholder="Ссылка">
+                </div>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
+                    <label for="">Alt текст</label>
+                    <input type="text" placeholder="Alt текст">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="banner">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--/banner-->
+
+            <!--banner-->
+            <div class="main-sidebar__block-prop main-sidebar__banner-block" data-block="banner-common">
+                <h4 class="main-sidebar__block-prop-title">Баннер Общий</h4>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    <label class="input-file">
+                        <div class="input-file-block">
+                            <img src="/assets/images/icons/1.svg" alt="" class="banner-img">
+                            <input type="file" name="userFile" accept="image/*">
+                            <span>Загрузите изображение</span>
+                        </div>
+                    </label>
+                </form>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
+                    <label for="">Ссылка</label>
+                    <input type="text" placeholder="Ссылка">
+                </div>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
+                    <label for="">Alt текст</label>
+                    <input type="text" placeholder="Alt текст">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="banner-common">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--/banner-->
+
+            <!--timer-->
+            <div class="main-sidebar__block-prop main-sidebar__timer-block" data-block="timer">
+                <h4 class="main-sidebar__block-prop-title">Таймер</h4>
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Время действия таймера</label>
+                    <input type="text" value="9 дней">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="timer">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--/timer-->
+
+            <!--text-->
+            <div class="main-sidebar__block-prop main-sidebar__text-block" data-block="text">
+                <h4 class="main-sidebar__block-prop-title">Текст</h4>
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Содержимое текстового блока</label>
+                    <input type="text" placeholder="Введите текст">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="text">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--text-->
+
+            <!--product-->
+            <div class="main-sidebar__block-prop main-sidebar__single-product-block" data-block="single-product">
+                <h4 class="main-sidebar__block-prop-title">Один товар</h4>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="single-product">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--product-->
+
+            <!--two-product-->
+            <div class="main-sidebar__block-prop main-sidebar__two-product-block-ver-1" data-block="two-product">
+                <h4 class="main-sidebar__block-prop-title">Два товара(вариант 1)</h4>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="two-product">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--two-product-->
+
+            <!--two-product-1-->
+            <div class="main-sidebar__block-prop main-sidebar__two-product-block-ver-2" data-block="two-product-2">
+                <h4 class="main-sidebar__block-prop-title">Два товара(вариант 2)</h4>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="two-product-1">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--two-product-1-->
+
+            <!--two-product-3-->
+            <div class="main-sidebar__block-prop main-sidebar__two-product-block-ver-2" data-block="two-product-3">
+                <h4 class="main-sidebar__block-prop-title">Два товара(вариант 3)</h4>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="two-product-2">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--two-product-3-->
+
+            <!--three-product-->
+            <div class="main-sidebar__block-prop main-sidebar__three-product-block" data-block="three-product">
+                <h4 class="main-sidebar__block-prop-title">Три товара</h4>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__product">
+                    <div class="main-sidebar__product-wrapper">
+                        <div class="main-sidebar__block-prop-input">
+                            <label for="">Ссылка на товар</label>
+                            <input type="text" placeholder="Ссылка на товар">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Текущая цена</label>
+                            <input type="text" placeholder="Текущая цена">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                            <label for="">Новая цена</label>
+                            <input type="text" placeholder="Новая цена">
+                        </div>
+                    </div>
+
+                    <div class="sale-block">
+                        <h4>Скидки</h4>
+
+                        <!--wrapper for append sale item-->
+                        <div class="sale-block__wrapper"></div>
+                        <!--/wrapper for append sale item-->
+
+                        <div class="sale-block__btn">
+                            <p>Добавить скидку</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="three-product">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--three-product-->
+
+            <!--footer-->
+            <div class="main-sidebar__block-prop main-sidebar__footer-block" data-block="footer">
+                <h4 class="main-sidebar__block-prop-title">Footer</h4>
+
+                <div class="main-sidebar__block-prop-select">
+                    <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_site">
+                        <label for="">Сайт</label>
+                        <input type="text" value="Monbento" readonly>
+                        <img src="/assets/images/icons/triangle.svg" alt="">
+                    </div>
+                    <ul class="main-sidebar__block-prop-select-list">
+                        <li>Monbento</li>
+                        <li>Mason Cash</li>
+                        <li>Paola Reinas</li>
+                    </ul>
+                </div>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_delivery">
+                    <label for="">Ссылка на доставку</label>
+                    <input type="text" placeholder="Ссылка на доставку">
+                </div>
+
+                <div
+                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_discount">
+                    <label for="">Ссылка на скидку</label>
+                    <input type="text" placeholder="Ссылка на скидку">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
+                        data-btn="footer">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <!--footer-->
+
+            <!--end blocks for mail gen-->
+        </div>
+        <div class="main-render">
+            <div class="main-render__mail">
+                <h2>Рендер письма</h2>
+                <div class="main-render__mail-block">
+                    {{ mail | raw }}
+                </div>
+                <div class="btn-block btn-block_blue code-copy">
+                    <p>Скопировать код</p>
+                </div>
+
+                <textarea name="" id="copy-block" cols="30" rows="10" value="{{ mail | raw }}"></textarea>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -16,7 +16,7 @@ return static function (App $app): void {
         $group->get('',[IndexPage::class,'get']);
         $group->get('constructor',[ConstructorPage::class,'get']);
         $group->get('templates',[TemplatesPage::class,'get']);
-        $group->get('templates/template/{id}',[TemplatesPage::class,'get']);
+        $group->get('templates/template/{id}',[TemplatesPage::class,'getTemplate']);
 
     })->add(BasicAuthMiddleware::class);
 
@@ -25,4 +25,5 @@ return static function (App $app): void {
     $app->post('/uploadImage',[UploadPage::class,'get']);
     $app->post('/generateMail',[GenerateMailPage::class,'get']);
     $app->get('/templates/views/{id}',[TemplateViewPage::class,'get']);
+    $app->post('/createTemplate',[TemplatesPage::class,'createTemplate']);
 };

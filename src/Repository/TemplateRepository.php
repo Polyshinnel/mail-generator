@@ -20,11 +20,11 @@ class TemplateRepository
     }
 
     public function getAllTemplates() {
-        return $this->templateModel->all()->toArray();
+        return $this->templateModel->orderBy('id','DESC')->get()->toArray();
     }
 
     public function getTemplateById($id) {
-        return $this->templateModel->where('id',$id)->get()->toArray();
+        return $this->templateModel->where('id',$id)->first()->toArray();
     }
 
     public function deleteTemplateById($id):void {
@@ -36,5 +36,10 @@ class TemplateRepository
             $column => $data
         ];
         $this->templateModel::where('id',$id)->update($updateArr);
+    }
+
+    public function getLastId() {
+        $lastTemplate = $this->templateModel->orderBy('id','DESC')->first()->toArray();
+        return $lastTemplate['id'];
     }
 }

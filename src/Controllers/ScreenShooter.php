@@ -4,15 +4,30 @@
 namespace App\Controllers;
 
 
+use Screen\Capture;
+
 class ScreenShooter
 {
+    private $screenCapture;
+
+    public function __construct(Capture $screenCapture)
+    {
+        $this->screenCapture = $screenCapture;
+    }
+
     public function getScreenShot($id) {
         $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
         $url = $protocol.$_SERVER['HTTP_HOST'].'/templates/views/'.$id;
-        $api_data = file_get_contents("https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=$url&screenshot=true");
-        $api_data = json_decode($api_data, true);
-        $screenshot = $api_data['screenshot']['data'];
-        $screenshot = str_replace(array('_','-'),array('/','+'),$screenshot);
-        return 'data:image/jpeg;base64,'.$screenshot;
+        $filename = time();
+        $screenPath = __DIR__.'/../../public/assets/screenshot/'.$filename;
+
+        $this->screenCapture->setUrl($url);
+        $this->screenCapture->setWidth(1000);
+        $this->screenCapture->setHeight(1000);
+        $this->screenCapture->setClipWidth(1000);
+        $this->screenCapture->setClipHeight(1000);
+        $this->screenCapture->save($screenPath);
+
+        return '/assets/screenshot/'.$filename.'.jpg';
     }
 }
