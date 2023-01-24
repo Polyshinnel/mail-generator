@@ -16,12 +16,13 @@ php vendor/bin/phinx migrate -c config-phinx.php
 
 https://siipo.la/blog/how-to-use-eloquent-orm-migrations-outside-laravel
 
+### Важно для работы:
 
-## Консольные комманды
+1. Дать права на исполнение 
+/vendor/microweber/screen/src/Capture.php
 
-##### Запуск парсеров:
-
-php bin/console.php Название комманды
+2. Скачать x64 файл в /vendor/microweber/screen/bin/ по ссылке
+https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
 
 
 
