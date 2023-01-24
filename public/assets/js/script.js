@@ -55,6 +55,19 @@ $('.main-sidebar__header-btn').click(function(){
 	$(this).addClass('main-sidebar__header-btn_active');
 });
 
+$('.structure-wrapper__empty-btn').click(function () {
+	$('.structure-wrapper').css('display','none');
+	$('.main-sidebar__blocks').css('display','flex');
+
+	$('.main-sidebar__header-btn').each(function(){
+		$(this).removeClass('main-sidebar__header-btn_active');
+		let attr = $(this).attr('data-item');
+		if(attr === 'blocks') {
+			$(this).addClass('main-sidebar__header-btn_active');
+		}
+	});
+})
+
 $('.main-sidebar__block').click(function(){
 	let nameBlock = $(this).attr('data-block');
 	$('.main-sidebar__block-prop').each(function(){
@@ -268,7 +281,10 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 		}
 	});
 	let structureWrapper = $('.structure-wrapper');
+	$('.structure-wrapper__empty ').remove();
 	structureWrapper.append(structureBlock);
+	$('.structure-wrapper__save').remove();
+	checkAndAddSaveBtns();
 	structureWrapper.css('display','block');
 	getStructureJson();
 });
@@ -360,7 +376,7 @@ function createStructureBlockBodyProducts(productInfo) {
 				}
 			}
 
-			productsStructure+= '<div class="main-sidebar__product"><div class="main-sidebar__product-wrapper"><div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input type="text" placeholder="Ссылка на товар" value="'+link+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Текущая цена</label><input type="text" placeholder="Текущая цена" value="'+price+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Новая цена</label><input type="text" placeholder="Новая цена" value="'+newPrice+'"></div></div><div class="sale-block"><h4>Скидки</h4><div class="sale-block__wrapper">'+salesStructure+'</div><div class="sale-block__btn"><p>Добавить скидку</p></div></div></div>';
+			productsStructure+= '<div class="main-sidebar__product"><div class="main-sidebar__product-wrapper"><div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input type="text" placeholder="Ссылка на товар" value="'+link+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Старая цена</label><input type="text" placeholder="Старая цена" value="'+price+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Цена</label><input type="text" placeholder="Цена" value="'+newPrice+'"></div></div><div class="sale-block"><h4>Скидки</h4><div class="sale-block__wrapper">'+salesStructure+'</div><div class="sale-block__btn"><p>Добавить скидку</p></div></div></div>';
 		}
 	}
 	
@@ -597,3 +613,182 @@ $('.send-auth').click(function(){
 		}
 	});
 });
+
+function checkAndAddSaveBtns() {
+	let url = window.location.pathname;
+	let btnsBlock = '';
+	if(url === '/constructor') {
+		btnsBlock = '<div class="structure-wrapper__save"><button class="structure-wrapper__save-btn">Сохранить шаблон</button></div>';
+		$('.structure-wrapper').append(btnsBlock);
+	}
+	//Заготовка под работу с обновлением шаблона
+	else {
+		let urlArr = url.split('/');
+		let blockState = false;
+		btnsBlock = '<div class="structure-wrapper__save"><button class="structure-wrapper__save-btn">Сохранить шаблон</button><button class="structure-wrapper__delete-btn">Удалить шаблон</button></div>';
+		for(let i = 0; i < urlArr.length; i++) {
+			if(urlArr[i] === 'template') {
+				blockState = true;
+			}
+		}
+	}
+}
+
+$(document).on('click','.structure-wrapper__save-btn',function () {
+	$('.main-sidebar__header').fadeOut(300);
+	$('.structure-wrapper').fadeOut(300);
+	$('.main-sidebar__header-btn').each(function(){
+		$(this).removeClass('main-sidebar__header-btn_active');
+		let attr = $(this).attr('data-item');
+		if(attr === 'blocks') {
+			$(this).addClass('main-sidebar__header-btn_active');
+		}
+	});
+	$('.main-sidebar__save-template-block').css('display','block');
+})
+
+function getStructureJsonToSave() {
+	let structureArr = [];
+	$('.structure-block').each(function(){
+		let structureName = $(this).attr('data-structure');
+
+		if(structureName === 'header') {
+			let siteName = $(this).find('.structure-block-body .main-sidebar__block-prop-select input').val();
+			let structureItem = {
+				blockName: structureName,
+				siteName: siteName
+			}
+			structureArr.push(structureItem);
+		}
+
+
+		if(structureName === 'banner') {
+			let img = $(this).find('.banner-img').attr('src');
+			let link = $(this).find('.main-sidebar__block-prop-input_banner-link input').val();
+			let alt = $(this).find('.main-sidebar__block-prop-input_banner-alt input').val();
+			let structureItem = {
+				blockName: structureName,
+				img: img,
+				link: link,
+				alt: alt
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'banner-common') {
+			let img = $(this).find('.banner-img').attr('src');
+			let link = $(this).find('.main-sidebar__block-prop-input_banner-link input').val();
+			let alt = $(this).find('.main-sidebar__block-prop-input_banner-alt input').val();
+			let structureItem = {
+				blockName: structureName,
+				img: img,
+				link: link,
+				alt: alt
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'timer') {
+			let timer = $(this).find('.structure-block-body .main-sidebar__block-prop-input input').val();
+			let structureItem = {
+				blockName: structureName,
+				timer: timer
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'text') {
+			let text = $(this).find('.structure-block-body .main-sidebar__block-prop-input input').val();
+			let structureItem = {
+				blockName: structureName,
+				text: text
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'single-product') {
+			let products = $(this).find('.structure-block-body .main-sidebar__product');
+			let productsInfo = getProductData(products);
+			let structureItem = {
+				blockName: structureName,
+				products: productsInfo
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'two-product') {
+			let products = $(this).find('.structure-block-body .main-sidebar__product');
+			let productsInfo = getProductData(products);
+			let structureItem = {
+				blockName: structureName,
+				products: productsInfo
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'two-product-1') {
+			let products = $(this).find('.structure-block-body .main-sidebar__product');
+			let productsInfo = getProductData(products);
+			let structureItem = {
+				blockName: structureName,
+				products: productsInfo
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'two-product-2') {
+			let products = $(this).find('.structure-block-body .main-sidebar__product');
+			let productsInfo = getProductData(products);
+			let structureItem = {
+				blockName: structureName,
+				products: productsInfo
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'three-product') {
+			let products = $(this).find('.structure-block-body .main-sidebar__product');
+			let productsInfo = getProductData(products);
+			let structureItem = {
+				blockName: structureName,
+				products: productsInfo
+			}
+			structureArr.push(structureItem);
+		}
+
+		if(structureName === 'footer') {
+			let siteName = $(this).find('.structure-block-body .main-sidebar__block-prop-select input').val();
+			let delivery = $(this).find('.main-sidebar__block-prop-input_delivery input').val();
+			let discount = $(this).find('.main-sidebar__block-prop-input_discount input').val();
+			let structureItem = {
+				blockName: structureName,
+				siteName: siteName,
+				delivery: delivery,
+				discount: discount
+			}
+			structureArr.push(structureItem);
+		}
+	});
+
+	return JSON.stringify(structureArr);
+}
+
+$('.main-sidebar__block-prop-btn_accept-save').click(function () {
+	let name = $(this).parent().parent().find('input').val();
+	let json = getStructureJsonToSave();
+	console.log(name);
+	console.log(json);
+
+	$.ajax({
+		url: '/createTemplate',
+		method: 'post',
+		dataType: 'html',
+		data: {
+			'name' : name,
+			'json': json
+		},
+		success: function(data){
+			$(location).attr('href','/templates');
+		}
+	});
+})

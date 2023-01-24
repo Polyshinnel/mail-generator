@@ -16,4 +16,5 @@ class Template extends Model
         'date_create',
         'json'
     ];
+    public $timestamps = false;
 }

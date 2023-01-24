@@ -79,7 +79,8 @@ class TemplatesPage
     public function createTemplate(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $dataArr = $request->getParsedBody();
         $json = $dataArr['json'];
-        $this->templatesController->createTemplate($json);
+        $name = $dataArr['name'];
+        $this->templatesController->createTemplate($json,$name);
 
         return new Response(
             200,

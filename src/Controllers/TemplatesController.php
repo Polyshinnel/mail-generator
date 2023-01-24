@@ -36,22 +36,28 @@ class TemplatesController
         $this->templateRepository->updateTemplateById($id,$img,$column);
     }
 
-    public function createTemplate($json) {
+    public function createTemplate($json,$name = NULL) {
         $allTemp = $this->templateRepository->getAllTemplates();
-        $num = 1;
-        if(!empty($allTemp)) {
-            $lastTemp = $allTemp[0];
-            $name = $lastTemp['name'];
-            $nameArr = explode(' ',$name);
-            $num = $nameArr[1]+1;
+        $tempName = $name;
+
+        if($name == '') {
+            $num = 1;
+            if(!empty($allTemp)) {
+                $lastTemp = $allTemp[0];
+                $name = $lastTemp['name'];
+                $nameArr = explode(' ',$name);
+                $num = $nameArr[1]+1;
+            }
+
+            $tempName = 'Шаблон '.$num;
         }
 
-        $tempName = 'Шаблон '.$num;
-        $dateCreate = date("Y-m-d");
+
+
         $createArr = [
             'name' => $tempName,
             'img' => '',
-            'date_create' => $dateCreate,
+            'date_create' => date("Y-m-d"),
             'json' => $json
         ];
         $this->templateRepository->createTemplate($createArr);
