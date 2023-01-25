@@ -149,6 +149,9 @@ class ImageProcessing
     }
 
     private function hexToRgb(String $color) {
+        if(($color == '') || empty($color)) {
+            $color = '#000000';
+        }
         $rgb = sscanf($color, "#%02x%02x%02x");
         return [
             'red' => $rgb[0],
