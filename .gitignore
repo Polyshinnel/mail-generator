@@ -6,3 +6,4 @@ composer.lock
 logs/
 public/assets/uploaded
 public/assets/edited
+public/assets/screenshot
