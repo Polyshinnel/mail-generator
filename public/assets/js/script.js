@@ -766,8 +766,7 @@ function getStructureJsonToSave() {
 $('.main-sidebar__block-prop-btn_accept-save').click(function () {
 	let name = $(this).parent().parent().find('input').val();
 	let json = getStructureJsonToSave();
-	console.log(name);
-	console.log(json);
+	$('.await-window').fadeIn(300);
 
 	$.ajax({
 		url: '/createTemplate',
