@@ -369,13 +369,18 @@ class MailBlockGenerator
                 $dataProduct = $this->uploadDataToCache($product);
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
+                $sale = '';
+                if(!empty($product['sale'])) {
+                    $sale = $product['sale'];
+                }
 
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,
                     'price' => $price,
                     'newPrice' => $newPrice,
-                    'filename' => $fileName
+                    'filename' => $fileName,
+                    'sale' => $sale
                 ];
             }
 
@@ -460,13 +465,18 @@ class MailBlockGenerator
                 $dataProduct = $this->uploadDataToCache($product);
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
+                $sale = '';
+                if(!empty($product['sale'])) {
+                    $sale = $product['sale'];
+                }
 
                 $productsArr[] = [
                     'name' => $productName,
                     'link' => $link,
                     'price' => $price,
                     'newPrice' => $newPrice,
-                    'filename' => $fileName
+                    'filename' => $fileName,
+                    'sale' => $sale
                 ];
             }
 

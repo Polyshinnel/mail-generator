@@ -108,7 +108,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	let structureBlock = '';
 
 	if(btnData === 'header') {
-		imgIcon = 'assets/images/icons/9.svg';
+		imgIcon = '/assets/images/icons/9.svg';
 		nameStructure = 'Header';
 		let siteName = $(this).parent().parent().find('.main-sidebar__block-prop-input input').val();
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
@@ -117,7 +117,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'banner') {
-		imgIcon = 'assets/images/icons/8.svg';
+		imgIcon = '/assets/images/icons/8.svg';
 		nameStructure = 'Баннер';
 		let bannerImg = $(this).parent().parent().find('.banner-img').attr('src');
 		let link = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-link input').val();
@@ -154,7 +154,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'banner-common') {
-		imgIcon = 'assets/images/icons/8.svg';
+		imgIcon = '/assets/images/icons/8.svg';
 		nameStructure = 'Баннер - Общий';
 		let bannerImg = $(this).parent().parent().find('.banner-img').attr('src');
 		let link = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-link input').val();
@@ -192,7 +192,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 
 
 	if(btnData === 'timer') {
-		imgIcon = 'assets/images/icons/6.svg';
+		imgIcon = '/assets/images/icons/6.svg';
 		nameStructure = 'Таймер';
 		let timer = $(this).parent().parent().find('.main-sidebar__block-prop-input input').val();
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
@@ -201,7 +201,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'text') {
-		imgIcon = 'assets/images/icons/7.svg';
+		imgIcon = '/assets/images/icons/7.svg';
 		nameStructure = 'Текст';
 		let text = $(this).parent().parent().find('.main-sidebar__block-prop-input input').val();
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
@@ -210,7 +210,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'single-product') {
-		imgIcon = 'assets/images/icons/1.svg';
+		imgIcon = '/assets/images/icons/1.svg';
 		nameStructure = '1 товар';
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
 		let products = $(this).parent().parent().find('.main-sidebar__product');
@@ -221,7 +221,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'two-product') {
-		imgIcon = 'assets/images/icons/5.svg';
+		imgIcon = '/assets/images/icons/5.svg';
 		nameStructure = '2 товара';
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
 		let products = $(this).parent().parent().find('.main-sidebar__product');
@@ -231,7 +231,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'two-product-1') {
-		imgIcon = 'assets/images/icons/2.svg';
+		imgIcon = '/assets/images/icons/2.svg';
 		nameStructure = '2 товара';
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
 		let products = $(this).parent().parent().find('.main-sidebar__product');
@@ -241,7 +241,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'two-product-2') {
-		imgIcon = 'assets/images/icons/10.svg';
+		imgIcon = '/assets/images/icons/10.svg';
 		nameStructure = '2 товара';
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
 		let products = $(this).parent().parent().find('.main-sidebar__product');
@@ -251,7 +251,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'three-product') {
-		imgIcon = 'assets/images/icons/4.svg';
+		imgIcon = '/assets/images/icons/4.svg';
 		nameStructure = '3 товара';
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
 		let products = $(this).parent().parent().find('.main-sidebar__product');
@@ -261,7 +261,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	}
 
 	if(btnData === 'footer') {
-		imgIcon = 'assets/images/icons/3.svg';
+		imgIcon = '/assets/images/icons/3.svg';
 		nameStructure = 'Footer';
 		let siteName = $(this).parent().parent().find('.main-sidebar__block-prop-input_site input').val();
 		let delivery = $(this).parent().parent().find('.main-sidebar__block-prop-input_delivery input').val();
@@ -351,7 +351,7 @@ function getProductData(products) {
 }
 
 function createStructureHeader(imgIcon,nameStructure){
-	return '<div class="structure-block-header"><div class="structure-block-header__name"><div class="structure-block-header__name-img"><img src="'+imgIcon+'" alt=""></div><p>'+nameStructure+'</p></div><img src="assets/images/icons/arrow.svg" alt="" class="structure-arrow"></div>';
+	return '<div class="structure-block-header"><div class="structure-block-header__name"><div class="structure-block-header__name-img"><img src="'+imgIcon+'" alt=""></div><p>'+nameStructure+'</p></div><img src="/assets/images/icons/arrow.svg" alt="" class="structure-arrow"></div>';
 }
 
 function createStructureBlockBodyProducts(productInfo) {

@@ -770,3 +770,46 @@ body{
         background: #D30000;
     }
 }
+
+.await-window{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+
+    .await-window__wrapper{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+
+        .await-window__info{
+            width: 360px;
+            height: 190px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+
+            p{
+                font-size: 16px;
+                color: #666;
+                text-align: center;
+            }
+
+            img{
+                margin-top: 25px;
+            }
+        }
+    }
+}
