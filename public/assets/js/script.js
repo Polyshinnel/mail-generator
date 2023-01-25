@@ -86,11 +86,11 @@ $('.main-sidebar__block-prop-btn_decline_main').click(function(){
 	$('.main-sidebar__blocks').css('display','flex');
 });
 
-$('.main-sidebar__block-prop-select .main-sidebar__block-prop-input').click(function(){
+$(document).on('click','.main-sidebar__block-prop-select .main-sidebar__block-prop-input',function () {
 	$(this).parent().find('.main-sidebar__block-prop-select-list').slideToggle();
-});
+})
 
-$('.main-sidebar__block-prop-select-list li').click(function(){
+$(document).on('click','.main-sidebar__block-prop-select-list li',function () {
 	let dataText = $(this).html();
 	$(this).parent().slideUp();
 	$(this).parent().parent().find('.main-sidebar__block-prop-input input').val(dataText);
@@ -264,10 +264,8 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 		imgIcon = '/assets/images/icons/3.svg';
 		nameStructure = 'Footer';
 		let siteName = $(this).parent().parent().find('.main-sidebar__block-prop-input_site input').val();
-		let delivery = $(this).parent().parent().find('.main-sidebar__block-prop-input_delivery input').val();
-		let discount = $(this).parent().parent().find('.main-sidebar__block-prop-input_discount input').val();
 		let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
-		let structureBlockBody = createStructureBlockBodyOther(siteName,btnData,null,null,delivery,discount);
+		let structureBlockBody = createStructureBlockBodyOther(siteName,btnData,null,null);
 		structureBlock = createStructure(structureBlockHeader,structureBlockBody,btnData);
 	}
 
@@ -390,7 +388,7 @@ function createStructureBlockBodyProducts(productInfo) {
 
 function createStructureBlockBodyOther(data,btnData,alt = null,link = null,delivery=null,discount=null){
 	if(btnData === 'header') {
-		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Monbento</li><li>Mason Cash</li><li>Paola Reinas</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
+		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 
 	if(btnData === 'banner') {
@@ -410,7 +408,7 @@ function createStructureBlockBodyOther(data,btnData,alt = null,link = null,deliv
 	}
 
 	if(btnData === 'footer') {
-		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Monbento</li><li>Mason Cash</li><li>Paola Reinas</li></ul></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_delivery"><label for="">Ссылка на доставку</label><input type="text" placeholder="Ссылка на доставку" value="'+delivery+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_discount"><label for="">Ссылка на скидку</label><input type="text" placeholder="Ссылка на скидку" value="'+discount+'"></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
+		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 }
 
@@ -545,13 +543,9 @@ function getStructureJson() {
 
 		if(structureName === 'footer') {
 			let siteName = $(this).find('.structure-block-body .main-sidebar__block-prop-select input').val();
-			let delivery = $(this).find('.main-sidebar__block-prop-input_delivery input').val();
-			let discount = $(this).find('.main-sidebar__block-prop-input_discount input').val();
 			let structureItem = {
 				blockName: structureName,
 				siteName: siteName,
-				delivery: delivery,
-				discount: discount
 			}
 			structureArr.push(structureItem);
 		}
@@ -758,13 +752,9 @@ function getStructureJsonToSave() {
 
 		if(structureName === 'footer') {
 			let siteName = $(this).find('.structure-block-body .main-sidebar__block-prop-select input').val();
-			let delivery = $(this).find('.main-sidebar__block-prop-input_delivery input').val();
-			let discount = $(this).find('.main-sidebar__block-prop-input_discount input').val();
 			let structureItem = {
 				blockName: structureName,
 				siteName: siteName,
-				delivery: delivery,
-				discount: discount
 			}
 			structureArr.push(structureItem);
 		}

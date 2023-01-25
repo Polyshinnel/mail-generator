@@ -27,6 +27,8 @@
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",
-        "microweber/screen": "^1.0"
+        "microweber/screen": "^1.0",
+        "ext-simplexml": "*",
+        "ext-mbstring": "*"
     }
 }

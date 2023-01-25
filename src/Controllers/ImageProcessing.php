@@ -74,6 +74,14 @@ class ImageProcessing
         ];
     }
 
+    public function getImageSizeByPath(String $path) {
+        $size = getimagesize($path);
+        return [
+            'width' => $size[0],
+            'height' => $size[1]
+        ];
+    }
+
     private function getCoefficient(array $size,array $maxSize){
         $width = $size['width'];
         $height = $size['height'];

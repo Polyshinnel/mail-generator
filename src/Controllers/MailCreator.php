@@ -46,9 +46,7 @@ class MailCreator
 
             if($nameBlock == 'footer'){
                 $siteName = $jsonItem['siteName'];
-                $discount = $jsonItem['discount'];
-                $delivery = $jsonItem['delivery'];
-                $mailBlocks .= $this->mailBlockGenerator->createFooter($siteName,$delivery,$discount);
+                $mailBlocks .= $this->mailBlockGenerator->createFooter($siteName);
             }
 
             if($nameBlock == 'single-product' || 'two-product' || 'two-product-1' || 'two-product-2' || 'three-product') {

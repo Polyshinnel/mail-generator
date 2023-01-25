@@ -4,43 +4,36 @@
 namespace App\Controllers;
 
 
+use App\Repository\SiteSettingsRepository;
+
 class MailBlockGenerator
 {
-    private $siteArr = [
-        'Monbento' => [
-            'siteName' => 'Monbento',
-            'siteAddr' => 'https://monbento.me/',
-            'siteAddrShort' => 'monbento.me',
-            'logo' => 'images/logos/monbento-logo.png'
-        ],
-        'Mason Cash' => [
-            'siteName' => 'Mason Cash',
-            'siteAddr' => 'https://masoncash.me/',
-            'siteAddrShort' => 'masoncash.me',
-            'logo' => 'images/logos/mason-cash-logo.png'
-        ],
-        'Paola Reinas' => [
-            'siteName' => 'Paola Reinas',
-            'siteAddr' => 'https://paolareinas.ru/',
-            'siteAddrShort' => 'paolareinas.ru',
-            'logo' => 'images/logos/paola-reinas-logo.png'
-        ],
-    ];
+    private SiteParser $parser;
+    private UploadImage $fileUploader;
+    private ImageProcessing $imageProcessing;
+    private SiteSettingsRepository $settingsRepository;
+    private Utils $utils;
 
-    private $parser;
-    private $fileUploader;
-    private $imageProcessing;
-
-    public function __construct(SiteParser $parser,UploadImage $fileUploader,ImageProcessing $imageProcessing)
+    public function __construct(
+        SiteParser $parser,
+        UploadImage $fileUploader,
+        ImageProcessing $imageProcessing,
+        SiteSettingsRepository $settingsRepository,
+        Utils $utils
+    )
     {
         $this->parser = $parser;
         $this->fileUploader = $fileUploader;
         $this->imageProcessing = $imageProcessing;
+        $this->settingsRepository = $settingsRepository;
+        $this->utils = $utils;
     }
 
 
-    public function createMail($mailBlocks,$siteName) {
-        $siteInfo = $this->siteArr[$siteName];
+    public function createMail(String $mailBlocks,String $siteName): String {
+        $siteInfo = $this->settingsRepository->findSettingsByName($siteName);
+        $siteInfo = $siteInfo[0];
+
 
         $mailHead = '
             <html lang="ru">
@@ -48,7 +41,7 @@ class MailBlockGenerator
             <head>
               <meta charset="utf-8">
             
-              <title>'.$siteInfo['siteName'].'</title>
+              <title>'.$siteInfo['name'].'</title>
             </head>
             
             <body
@@ -58,7 +51,7 @@ class MailBlockGenerator
                 <meta itemprop="discountCode" content="GIFT2023">
               </div>
               <div itemscope="" itemtype="http://schema.org/EmailMessage">
-                <meta itemprop="subjectLine" content="Лучший момент покупать подарки со скидкой на '.$siteInfo['siteAddrShort'].'!">
+                <meta itemprop="subjectLine" content="Лучший момент покупать подарки со скидкой на '.$siteInfo['site_addr_short'].'!">
               </div>
               <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding: 15px">
                 <tr>
@@ -86,11 +79,16 @@ class MailBlockGenerator
         return $mailHead.$mailBlocks.$mailBottom;
     }
 
-    public function createHeader($siteName){
-        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
+    public function createHeader(String $siteName): String {
+        $baseUrl = $this->utils->getCurrUrl();
+        $imgAdd = $baseUrl.'/assets/';
 
-        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
-        $siteInfo = $this->siteArr[$siteName];
+        $siteInfo = $this->settingsRepository->findSettingsByName($siteName);
+        $siteInfo = $siteInfo[0];
+
+        $logoPath = __DIR__.'/../../public/assets/'.$siteInfo['logo'];
+        $logoSize = $this->imageProcessing->getImageSizeByPath($logoPath);
+
         return '<tr>
             <td>
               <table border="0" cellspacing="0" cellpadding="0" width="100%" class="header"
@@ -100,8 +98,8 @@ class MailBlockGenerator
                     У вас отличный вкус!
                   </td>
                   <td align="center" class="logo" style="padding-top: 8px; padding-bottom: 8px;">
-                    <a href="'.$siteInfo['siteAddr'].'">
-                      <img src="'.$imgAdd.$siteInfo['logo'].'" alt="'.$siteName.'" width="242" height="39">
+                    <a href="'.$siteInfo['site_addr'].'">
+                      <img src="'.$imgAdd.$siteInfo['logo'].'" alt="'.$siteName.'" width="'.$logoSize['width'].'" height="'.$logoSize['height'].'">
                     </a>
                   </td>
                   <td align="right" width="150">
@@ -115,16 +113,18 @@ class MailBlockGenerator
           </tr>';
     }
 
-    public function createFooter($siteName,$delivery,$discount){
-        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
-        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
+    public function createFooter(String $siteName): String {
+        $baseUrl = $this->utils->getCurrUrl();
+        $imgAddr = $baseUrl.'/assets/';
 
-        $siteInfo = $this->siteArr[$siteName];
+        $siteInfo = $this->settingsRepository->findSettingsByName($siteName);
+        $siteInfo = $siteInfo[0];
+
         return '<tr align="center" valign="top" class="copyright"
             style="font-size: 12px; line-height: 25px; text-align: center;">
             <td style="padding: 75px 0 25px;">
-              <a href="'.$siteInfo['siteAddr'].'"
-                style="color: #2E78E8; text-decoration: none;">'.$siteInfo['siteAddrShort'].'</a> © 2022. Есть вопросы? Звоните — 8 800
+              <a href="'.$siteInfo['site_addr'].'"
+                style="color: #2E78E8; text-decoration: none;">'.$siteInfo['site_addr_short'].'</a> © 2022. Есть вопросы? Звоните — 8 800
               100-49-32
             </td>
           </tr>
@@ -138,16 +138,16 @@ class MailBlockGenerator
                       style="background-color: #ffffff; border-radius: 5px; text-align: center;">
                       <tr>
                         <td class="footer__table__image" style="height: 95px; padding: 20px 0 12px;">
-                          <a href="'.$delivery.'"
+                          <a href="'.$siteInfo['delivery'].'"
                             style="color: #000000; text-decoration: none;">
-                            <img src="'.$imgAdd.'images/mailadds/icon_1.jpg" alt="Доставка" width="64" height="64">
+                            <img src="'.$imgAddr.'images/mailadds/icon_1.jpg" alt="Доставка" width="64" height="64">
                           </a>
                         </td>
                       </tr>
                       <tr valign="top">
                         <td class="footer__table__text"
                           style="color: #000000; font-size: 12px; height: 84px; line-height: 20px;">
-                          <a href="'.$delivery.'"
+                          <a href="'.$siteInfo['delivery'].'"
                             style="color: #000000; text-decoration: none;">
                             Бесплатная доставка<br>
                             по России при заказе<br>
@@ -163,15 +163,15 @@ class MailBlockGenerator
                       style="background-color: #ffffff; border-radius: 5px; text-align: center;">
                       <tr>
                         <td class="footer__table__image" style="height: 95px; padding: 20px 0 12px;">
-                          <a href="'.$siteInfo['siteAddr'].'" style="color: #000000; text-decoration: none;">
-                            <img src="'.$imgAdd.'images/mailadds/icon_2.jpg" alt="Магазин" width="55" height="55">
+                          <a href="'.$siteInfo['site_addr'].'" style="color: #000000; text-decoration: none;">
+                            <img src="'.$imgAddr.'images/mailadds/icon_2.jpg" alt="Магазин" width="55" height="55">
                           </a>
                         </td>
                       </tr>
                       <tr valign="top">
                         <td class="footer__table__text"
                           style="color: #000000; font-size: 12px; height: 84px; line-height: 20px;">
-                          <a href="https://monbento.me" style="color: #000000; text-decoration: none;">
+                          <a href="'.$siteInfo['site_addr'].'" style="color: #000000; text-decoration: none;">
                             Фирменный<br>
                             магазин '.$siteName.'<br>
                             В России
@@ -186,15 +186,15 @@ class MailBlockGenerator
                       style="background-color: #ffffff; border-radius: 5px; text-align: center;">
                       <tr>
                         <td class="footer__table__image" style="height: 95px; padding: 20px 0 12px;">
-                          <a href="'.$discount.'" style="color: #000000; text-decoration: none;">
-                            <img src="'.$imgAdd.'images/mailadds/icon_3.jpg" alt="Скидки" width="54" height="54">
+                          <a href="'.$siteInfo['discount'].'" style="color: #000000; text-decoration: none;">
+                            <img src="'.$imgAddr.'images/mailadds/icon_3.jpg" alt="Скидки" width="54" height="54">
                           </a>
                         </td>
                       </tr>
                       <tr valign="top">
                         <td class="footer__table__text"
                           style="color: #000000; font-size: 12px; height: 84px; line-height: 20px;">
-                          <a href="'.$discount.'" style="color: #000000; text-decoration: none;">
+                          <a href="'.$siteInfo['discount'].'" style="color: #000000; text-decoration: none;">
                             Накопительная скидка<br>
                             для постоянных<br>
                             покупателей
@@ -209,28 +209,33 @@ class MailBlockGenerator
           </tr>';
     }
 
-    public function createBanner($imgLink,$bannerLink,$name){
+    public function createBanner(String $imgLink,String $bannerLink, String $name): String {
+        $urlArr = parse_url($imgLink);
+        $path = __DIR__.'/../../public/'.$urlArr['path'];
+
+        $bannerSize = $this->imageProcessing->getImageSizeByPath($path);
+
         return '<tr align="center" valign="top">
             <td style="padding-bottom:0;">
               <a href="'.$bannerLink.'" style="text-decoration: none;">
                 <img src="'.$imgLink.'" alt="'.$name.'"
-                  width="540" height="706">
+                  width="'.$bannerSize['width'].'" height="'.$bannerSize['height'].'">
               </a>
             </td>
           </tr>';
     }
 
-    public function createTimer(){
-        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
-        $imgAdd = $protocol.$_SERVER['HTTP_HOST'].'/assets/';
+    public function createTimer(): String {
+        $baseUrl = $this->utils->getCurrUrl();
+        $imgAddr = $baseUrl.'/assets/';
         return '<tr>
             <td align="center">
-              <img src="'.$imgAdd.'images/mailadds/timer.jpg" width="540" height="87" />
+              <img src="'.$imgAddr.'images/mailadds/timer.jpg" width="540" height="87" />
             </td>
           </tr>';
     }
 
-    public function createProductsBlock($productsBlock) {
+    public function createProductsBlock(array $productsBlock): String {
         $nameBlock =  $productsBlock['blockName'];
         $blockData = '';
 
@@ -250,7 +255,7 @@ class MailBlockGenerator
                 for($i = 0; $i < count($salesArr);$i++){
                     $offset = $i*62;
                     $color = $salesArr[$i]['color'];
-                    $text = $salesArr[$i]['text'];
+                    $text = '-'.$salesArr[$i]['text'].'%';
                     $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                 }
             }
@@ -265,12 +270,12 @@ class MailBlockGenerator
                       <img src="'.$productImg.'" alt="'.$productName.'" width="540"
                         height="370">
                       <div style="text-align: left; padding: 0 24px 24px">
-                        <div style="font-size: 12px;line-height: 23px;">
+                        <div style="font-size: 16px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$newPrice.' руб.</span>
                           <s style="color: #000;">'.$price.' руб.</s>
                         </div>
                         <span class="product__title"
-                          style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
+                          style="color: #000000; font-size: 16px; line-height: 23px; padding-right: 10px;">
                           '.$productName.'
                         </span>
                       </div>
@@ -300,7 +305,7 @@ class MailBlockGenerator
                     for($i = 0; $i < count($salesArr);$i++){
                         $offset = $i*62;
                         $color = $salesArr[$i]['color'];
-                        $text = $salesArr[$i]['text'];
+                        $text = '-'.$salesArr[$i]['text'].'%';
                         $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                     }
                 }
@@ -391,7 +396,7 @@ class MailBlockGenerator
                 for($i = 0; $i < count($salesArr);$i++){
                     $offset = $i*62;
                     $color = $salesArr[$i]['color'];
-                    $text = $salesArr[$i]['text'];
+                    $text = '-'.$salesArr[$i]['text'].'%';
                     $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                 }
             }
@@ -407,7 +412,7 @@ class MailBlockGenerator
                 for($i = 0; $i < count($salesArr);$i++){
                     $offset = $i*62;
                     $color = $salesArr[$i]['color'];
-                    $text = $salesArr[$i]['text'];
+                    $text = '-'.$salesArr[$i]['text'].'%';
                     $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                 }
             }
@@ -489,7 +494,7 @@ class MailBlockGenerator
                 for($i = 0; $i < count($salesArr);$i++){
                     $offset = $i*62;
                     $color = $salesArr[$i]['color'];
-                    $text = $salesArr[$i]['text'];
+                    $text = '-'.$salesArr[$i]['text'].'%';
                     $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                 }
             }
@@ -505,7 +510,7 @@ class MailBlockGenerator
                 for($i = 0; $i < count($salesArr);$i++){
                     $offset = $i*62;
                     $color = $salesArr[$i]['color'];
-                    $text = $salesArr[$i]['text'];
+                    $text = '-'.$salesArr[$i]['text'].'%';
                     $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                 }
             }
@@ -572,7 +577,7 @@ class MailBlockGenerator
                     for($i = 0; $i < count($salesArr);$i++){
                         $offset = $i*62;
                         $color = $salesArr[$i]['color'];
-                        $text = $salesArr[$i]['text'];
+                        $text = '-'.$salesArr[$i]['text'].'%';
                         $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
                     }
                 }
@@ -648,41 +653,31 @@ class MailBlockGenerator
         return '<tr align="center" valign="top"><td>'.$blockData.'</td></tr>';
     }
 
-    public function createCommonBanner($imgLink,$bannerLink,$name) {
-        $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
-                <tr valign="middle">
-                  <td align="center">
-                    <a href="'.$bannerLink.'"
-                      style="text-decoration: none;">
-                      <img src="'.$imgLink.'" alt="'.$name.'" width="540" height="407">
-                    </a>
-                  </td>
-                </tr>
-              </table>';
-        return '<tr align="center" valign="top"><td>'.$blockData.'</td></tr>';
-    }
-
-    private function uploadDataToCache($productItem) {
+    private function uploadDataToCache(array $productItem): array {
         $link = $productItem['link'];
 
         if(!empty($_SESSION[$link])) {
             return $_SESSION[$link];
         }
 
-        $productInfo = $this->parser->getMonbentoData($link);
+        $productInfo = $this->parser->getProductData($link);
         $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
 
         $_SESSION[$link] = [
             'link' => $link,
             'name' => $productInfo['productName'],
-            'filename' => $fileName
+            'filename' => $fileName,
+            'price' => $productInfo['price'],
+            'oldPrice' => $productInfo['oldPrice']
         ];
 
 
         return [
             'link' => $link,
             'name' => $productInfo['productName'],
-            'filename' => $fileName
+            'filename' => $fileName,
+            'price' => $productInfo['price'],
+            'oldPrice' => $productInfo['oldPrice']
         ];
     }
 

@@ -6,14 +6,14 @@ namespace App\Controllers;
 
 class UploadImage
 {
-    private $imageProcessing;
+    private ImageProcessing $imageProcessing;
 
     public function __construct(ImageProcessing $imageProcessing)
     {
         $this->imageProcessing = $imageProcessing;
     }
 
-    public function uploadFile() {
+    public function uploadFile(): String {
         $uploadDir = __DIR__.'/../../public/assets/uploaded/';
         $fileName = Date('dmYHis').'.jpg';
         $uploadFile = $uploadDir.$fileName;
@@ -21,7 +21,7 @@ class UploadImage
         return $fileName;
     }
 
-    public function uploadFileFromLink($link) {
+    public function uploadFileFromLink($link): String {
         $uploadDir = __DIR__.'/../../public/assets/uploaded/';
         $fileName = Date('dmYHis').'.png';
         $uploadFile = $uploadDir.$fileName;

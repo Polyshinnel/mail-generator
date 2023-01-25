@@ -5,6 +5,7 @@ namespace App\Pages;
 
 
 use App\Controllers\UploadImage;
+use App\Controllers\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Factory\StreamFactory;
@@ -14,18 +15,20 @@ use Slim\Views\Twig;
 
 class UploadPage
 {
-    private $uploadClass;
+    private UploadImage $uploadClass;
+    private Utils $utils;
 
-    public function __construct(UploadImage $uploadClass)
+    public function __construct(UploadImage $uploadClass, Utils $utils)
     {
         $this->uploadClass = $uploadClass;
+        $this->utils = $utils;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $fileName = $this->uploadClass->uploadFile();
-        $protocol = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])?"https://":"http://");
-        $fileLink = $protocol.$_SERVER['HTTP_HOST'].'/assets/uploaded/'.$fileName;
+        $baseUrl = $this->utils->getCurrUrl();
+        $fileLink = $baseUrl.'/assets/uploaded/'.$fileName;
         $json = [
             'fileLink' => $fileLink
         ];

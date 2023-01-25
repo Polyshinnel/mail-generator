@@ -3,30 +3,65 @@
 
 namespace App\Controllers;
 
-use simplehtmldom\HtmlWeb;
+use App\Repository\SiteSettingsRepository;
 
 class SiteParser
 {
-    private $client;
+    private SiteSettingsRepository $siteSettings;
+    private Utils $utils;
 
-    public function __construct(HtmlWeb $client)
+    public function __construct(SiteSettingsRepository $siteSettings, Utils $utils)
     {
-        $this->client = $client;
+        $this->siteSettings = $siteSettings;
+        $this->utils = $utils;
     }
 
-    public function getMonbentoData(String $link){
-        $html = $this->client->load($link);
-        $imgObj = $html->find('.product_img-box a');
-        $imgObj = $imgObj[0];
-        $imgSrc = $imgObj->href;
+    public function getProductData(String $link): array {
+        $urlArr = parse_url($link);
+        $link = $urlArr['scheme'].'://'.$urlArr['host'].$urlArr['path'];
+        $hostName = $urlArr['host'];
+        $settings = $this->siteSettings->findSettingsByHost($hostName);
 
-        $productNameObj = $html->find('.product_info h1');
-        $productNameObj = $productNameObj[0];
-        $productName = $productNameObj->innertext;
+        $xmlUrl = $settings[0]['site_xml'];
+        $xml = simplexml_load_file($xmlUrl);
 
-        return [
-            'productName' => $productName,
-            'productImg' => $imgSrc
-        ];
+        $offers = $xml->shop->offers->offer;
+
+        $productsArr = [];
+        foreach ($offers as $offer) {
+            $productUrl = (String)$offer->url;
+
+            $productPrefix = (String)$offer->typePrefix;
+            $productModel = (String)$offer->model;
+            $productModel = explode('(',$productModel);
+            $productModel = $productModel[0];
+            $productModel = trim($productModel);
+            $productModelArr = explode(' ',$productModel);
+            $productModel = '';
+            foreach ($productModelArr as $productModelItem) {
+                $productModel .= ucfirst($productModelItem).' ';
+            }
+            $productModel = trim($productModel);
+            $productName = $productPrefix.' '.$productModel;
+            $productName = trim($productName);
+            $productName = $this->utils->mbUcfirst($productName);
+
+            $productPictures = $offer->picture;
+            $productPicture = (String)$productPictures[0];
+            $price = (String)$offer->price;
+            $oldPrice = '';
+            if(isset($offer->oldprice)) {
+                $oldPrice = (String)$offer->oldprice;
+            }
+
+            $productsArr[$productUrl] = [
+                'productName' => $productName,
+                'productImg' => $productPicture,
+                'price' => $price,
+                'oldPrice' => $oldPrice
+            ];
+        }
+
+        return $productsArr[$link];
     }
 }

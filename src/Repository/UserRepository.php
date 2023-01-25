@@ -8,14 +8,14 @@ use App\Models\User;
 
 class UserRepository
 {
-    private $userModel;
+    private User $userModel;
 
     public function __construct(User $userModel)
     {
         $this->userModel = $userModel;
     }
 
-    public function checkUser(array $data) {
+    public function checkUser(array $data): ?array {
         $filter = [
             'name' => $data['name'],
             'password' => $data['pass']
