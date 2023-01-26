@@ -4,7 +4,7 @@
 <main>
     <div class="main-wrapper">
         <div class="main-sidebar">
-            <div class="main-sidebar__header">
+            <div class="main-sidebar__header" style="display: flex">
                 <div class="main-sidebar__header-btn" data-item="blocks">
                     <p>Блоки</p>
                 </div>
@@ -75,6 +75,11 @@
                         <img src="/assets/images/icons/3.svg" alt="">
                     </div>
                     <p>footer</p>
+                </div>
+
+                <div class="main-sidebar-settings-btn">
+                    <img src="/assets/images/icons/settings.svg" alt="">
+                    <p>Настройки шаблона</p>
                 </div>
             </div>
 
@@ -636,45 +641,6 @@
             </div>
             <!--/banner-->
 
-            <!--banner-->
-            <div class="main-sidebar__block-prop main-sidebar__banner-block" data-block="banner-common">
-                <h4 class="main-sidebar__block-prop-title">Баннер Общий</h4>
-
-                <form action="" method="post" enctype="multipart/form-data">
-                    <label class="input-file">
-                        <div class="input-file-block">
-                            <img src="/assets/images/icons/1.svg" alt="" class="banner-img">
-                            <input type="file" name="userFile" accept="image/*">
-                            <span>Загрузите изображение</span>
-                        </div>
-                    </label>
-                </form>
-
-                <div
-                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-link">
-                    <label for="">Ссылка</label>
-                    <input type="text" placeholder="Ссылка">
-                </div>
-
-                <div
-                    class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_margin main-sidebar__block-prop-input_banner-alt">
-                    <label for="">Alt текст</label>
-                    <input type="text" placeholder="Alt текст">
-                </div>
-
-                <div class="main-sidebar__block-prop-btns">
-                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
-                        data-btn="banner-common">
-                        <img src="/assets/images/icons/save.svg" alt="">
-                    </div>
-                    <div
-                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
-                        <img src="/assets/images/icons/cross.svg" alt="">
-                    </div>
-                </div>
-            </div>
-            <!--/banner-->
-
             <!--timer-->
             <div class="main-sidebar__block-prop main-sidebar__timer-block" data-block="timer">
                 <h4 class="main-sidebar__block-prop-title">Таймер</h4>
@@ -695,27 +661,6 @@
                 </div>
             </div>
             <!--/timer-->
-
-            <!--text-->
-            <div class="main-sidebar__block-prop main-sidebar__text-block" data-block="text">
-                <h4 class="main-sidebar__block-prop-title">Текст</h4>
-                <div class="main-sidebar__block-prop-input">
-                    <label for="">Содержимое текстового блока</label>
-                    <input type="text" placeholder="Введите текст">
-                </div>
-
-                <div class="main-sidebar__block-prop-btns">
-                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-main"
-                        data-btn="text">
-                        <img src="/assets/images/icons/save.svg" alt="">
-                    </div>
-                    <div
-                        class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
-                        <img src="/assets/images/icons/cross.svg" alt="">
-                    </div>
-                </div>
-            </div>
-            <!--text-->
 
             <!--product-->
             <div class="main-sidebar__block-prop main-sidebar__single-product-block" data-block="single-product">
@@ -1153,6 +1098,73 @@
 
             </div>
             <!--footer-->
+
+            <!--save template-->
+            <div class="main-sidebar__block-prop main-sidebar__save-template-block" data-block="update-template">
+                <h4 class="main-sidebar__block-prop-title">Сохранить шаблон</h4>
+
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Имя шаблона</label>
+                    <input type="text" placeholder="Имя шаблона">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-save"
+                         data-btn="save-data">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                            class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <!--save template-->
+
+            <!--general template settings-->
+            <div class="main-sidebar__block-prop main-sidebar__general-settings" data-block="template-settings" style="display:none;">
+                <h4 class="main-sidebar__block-prop-title">Настройки шаблона</h4>
+
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Цвет плашки скидки 1</label>
+                    <input type="text" placeholder="#ff0000" value="#E9394D" id="sale-color-1">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Цвет плашки скидки 2</label>
+                    <input type="text" placeholder="#ff0000" value="#58575C" id="sale-color-2">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Название купона</label>
+                    <input type="text" placeholder="Название купона" id="coupon-name">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Скидка по купону %</label>
+                    <input type="text" placeholder="Скидка по купону %" id="sale-percent">
+                </div>
+
+                <div class="main-sidebar__block-prop-switch main-sidebar__block-prop-input_margin">
+                    <h4 class="main-sidebar__block-prop-switch-title">Игнорировать скидки сайта</h4>
+                    <label class="checkbox-switch">
+                        <input type="checkbox" id="ignore-site-sale">
+                        <span class="checkbox-switch-switch" data-label-on="Вкл" data-label-off="Выкл"></span>
+                    </label>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept save-settings" >
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                            class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--general template settings-->
 
             <!--end blocks for mail gen-->
         </div>

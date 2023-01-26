@@ -6,7 +6,7 @@ namespace App\Controllers;
 
 class MailCreator
 {
-    private $mailBlockGenerator;
+    private MailBlockGenerator $mailBlockGenerator;
 
     public function __construct(MailBlockGenerator $mailBlockGenerator)
     {
@@ -15,14 +15,20 @@ class MailCreator
 
     public function finalCreateMail(array $jsonArr) {
         $mailBlocks = '';
+        $settings = [];
 
+        foreach ($jsonArr as $jsonItem){
+            $nameBlock = $jsonItem['blockName'];
+            if($nameBlock == 'settings') {
+                $settings = $jsonItem;
+            }
+        }
 
         foreach ($jsonArr as $jsonItem) {
             $nameBlock = $jsonItem['blockName'];
 
             if($nameBlock == 'header'){
                 $siteName = $jsonItem['siteName'];
-                $commonSiteName = $siteName;
                 $mailBlocks .= $this->mailBlockGenerator->createHeader($siteName);
             }
 
@@ -30,14 +36,7 @@ class MailCreator
                 $alt = $jsonItem['alt'];
                 $link = $jsonItem['link'];
                 $img = $jsonItem['img'];
-                $mailBlocks .= $this->mailBlockGenerator->createBanner($img,$link,$alt);
-            }
-
-            if($nameBlock == 'banner-common'){
-                $alt = $jsonItem['alt'];
-                $link = $jsonItem['link'];
-                $img = $jsonItem['img'];
-                $mailBlocks .= $this->mailBlockGenerator->createCommonBanner($img,$link,$alt);
+                $mailBlocks .= $this->mailBlockGenerator->createBanner($img,$link,$alt,$settings);
             }
 
             if($nameBlock == 'timer'){
@@ -50,7 +49,7 @@ class MailCreator
             }
 
             if($nameBlock == 'single-product' || 'two-product' || 'two-product-1' || 'two-product-2' || 'three-product') {
-                $mailBlocks .= $this->mailBlockGenerator->createProductsBlock($jsonItem);
+                $mailBlocks .= $this->mailBlockGenerator->createProductsBlock($jsonItem,$settings);
             }
         }
 

@@ -551,6 +551,21 @@ function getStructureJson() {
 		}
 	});
 
+	//add general settings for json
+	let settingsArr = {};
+	settingsArr.blockName = 'settings';
+	settingsArr.saleColor1 = $('#sale-color-1').val();
+	settingsArr.saleColor2 = $('#sale-color-2').val();
+	settingsArr.couponName = $('#coupon-name').val();
+	settingsArr.salePercent = $('#sale-percent').val();
+	let ignoreSite = false;
+	if ($('#ignore-site-sale').is(':checked')){
+		ignoreSite = true;
+	}
+	settingsArr.ignoreSite = ignoreSite;
+
+	structureArr.push(settingsArr);
+
 	console.log(structureArr);
 
 	let json = JSON.stringify(structureArr);
@@ -760,6 +775,21 @@ function getStructureJsonToSave() {
 		}
 	});
 
+	//add general settings for json
+	let settingsArr = {};
+	settingsArr.blockName = 'settings';
+	settingsArr.saleColor1 = $('#sale-color-1').val();
+	settingsArr.saleColor2 = $('#sale-color-2').val();
+	settingsArr.couponName = $('#coupon-name').val();
+	settingsArr.salePercent = $('#sale-percent').val();
+	let ignoreSite = false;
+	if ($('#ignore-site-sale').is(':checked')){
+		ignoreSite = true;
+	}
+	settingsArr.ignoreSite = ignoreSite;
+
+	structureArr.push(settingsArr);
+
 	return JSON.stringify(structureArr);
 }
 
@@ -780,4 +810,17 @@ $('.main-sidebar__block-prop-btn_accept-save').click(function () {
 			$(location).attr('href','/templates');
 		}
 	});
-})
+});
+
+$('.main-sidebar-settings-btn').click(function () {
+	$('.main-sidebar__header').fadeOut(300);
+	$('.main-sidebar__blocks').fadeOut(300);
+	$('.main-sidebar__general-settings').fadeIn();
+});
+
+$('.save-settings').click(function(){
+	$(this).parent().parent().fadeOut(300);
+	$('.main-sidebar__header').css('display','flex');
+	$('.main-sidebar__blocks').css('display','flex');
+	getStructureJson();
+});

@@ -76,6 +76,11 @@
                     </div>
                     <p>footer</p>
                 </div>
+
+                <div class="main-sidebar-settings-btn">
+                    <img src="/assets/images/icons/settings.svg" alt="">
+                    <p>Настройки шаблона</p>
+                </div>
             </div>
 
             <!--block for append elements-->
@@ -646,6 +651,7 @@
             </div>
             <!--footer-->
 
+            <!--save template-->
             <div class="main-sidebar__block-prop main-sidebar__save-template-block" data-block="save-template">
                 <h4 class="main-sidebar__block-prop-title">Сохранить шаблон</h4>
 
@@ -666,6 +672,51 @@
                 </div>
 
             </div>
+            <!--save template-->
+
+            <!--general template settings-->
+            <div class="main-sidebar__block-prop main-sidebar__general-settings" data-block="template-settings">
+                <h4 class="main-sidebar__block-prop-title">Настройки шаблона</h4>
+
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Цвет плашки скидки 1</label>
+                    <input type="text" placeholder="#ff0000" value="#E9394D" id="sale-color-1">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Цвет плашки скидки 2</label>
+                    <input type="text" placeholder="#ff0000" value="#58575C" id="sale-color-2">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Название купона</label>
+                    <input type="text" placeholder="Название купона" id="coupon-name">
+                </div>
+
+                <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
+                    <label for="">Скидка по купону %</label>
+                    <input type="text" placeholder="Скидка по купону %" id="sale-percent">
+                </div>
+
+                <div class="main-sidebar__block-prop-switch main-sidebar__block-prop-input_margin">
+                    <h4 class="main-sidebar__block-prop-switch-title">Игнорировать скидки сайта</h4>
+                    <label class="checkbox-switch">
+                        <input type="checkbox" id="ignore-site-sale">
+                        <span class="checkbox-switch-switch" data-label-on="Вкл" data-label-off="Выкл"></span>
+                    </label>
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept save-settings" >
+                        <img src="assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div
+                            class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <!--general template settings-->
 
             <!--end blocks for mail gen-->
         </div>

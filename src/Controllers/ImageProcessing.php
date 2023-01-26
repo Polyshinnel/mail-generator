@@ -126,6 +126,30 @@ class ImageProcessing
         imagedestroy($imgDest);
     }
 
+    public function resampleBanner($link) {
+
+        $urlArr = explode('/',$link);
+        $filename = $urlArr[count($urlArr) - 1];
+
+        $size = $this->getImageSize($filename);
+
+        if($size['width'] > 540) {
+            $coefficient = (540/$size['width']);
+        } else {
+            $coefficient = ($size['width']/540);
+        }
+
+
+        //Resized image
+        $path = $this->filePath.$filename;
+        $newImage = imagecreatetruecolor(540,$size['height']*$coefficient);
+        $image = imagecreatefromjpeg($path);
+        imagecopyresampled($newImage,$image,0,0,0,0,540,$size['height']*$coefficient,$size['width'],$size['height']);
+        imagejpeg($newImage,$path,100);
+        imagedestroy($image);
+        imagedestroy($newImage);
+    }
+
     private function addGrayFilter(String $filename,array $imageSize) {
         $path = $this->editedPath.$filename;
         $imgDest = imagecreatetruecolor($imageSize['width'],$imageSize['height']);

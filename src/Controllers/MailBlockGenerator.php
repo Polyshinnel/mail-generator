@@ -209,11 +209,21 @@ class MailBlockGenerator
           </tr>';
     }
 
-    public function createBanner(String $imgLink,String $bannerLink, String $name): String {
+    public function createBanner(String $imgLink,String $bannerLink,String $name,array $settings): String {
         $urlArr = parse_url($imgLink);
         $path = __DIR__.'/../../public/'.$urlArr['path'];
+        $bannerSizeOrigin = $this->imageProcessing->getImageSizeByPath($path);
+        $bannerSize = $bannerSizeOrigin;
+        if($bannerSizeOrigin['width'] != 540){
+            $this->imageProcessing->resampleBanner($imgLink);
+            $bannerSize = $this->imageProcessing->getImageSizeByPath($path);
+        }
 
-        $bannerSize = $this->imageProcessing->getImageSizeByPath($path);
+
+
+        if(!empty($settings['couponName'])) {
+            $bannerLink = $bannerLink.'?coupon='.$settings['couponName'];
+        }
 
         return '<tr align="center" valign="top">
             <td style="padding-bottom:0;">
@@ -235,7 +245,7 @@ class MailBlockGenerator
           </tr>';
     }
 
-    public function createProductsBlock(array $productsBlock): String {
+    public function createProductsBlock(array $productsBlock,array $settings): String {
         $nameBlock =  $productsBlock['blockName'];
         $blockData = '';
 
@@ -244,6 +254,9 @@ class MailBlockGenerator
             $dataProduct = $this->uploadDataToCache($product);
 
             $link = $product['link'];
+            if(!empty($settings['couponName'])) {
+                $link = $link.'?coupon='.$settings['couponName'];
+            }
             $price = $product['price'];
             $newPrice = $product['newPrice'];
             $productName = $dataProduct['name'];
@@ -251,13 +264,7 @@ class MailBlockGenerator
             $productImg = $this->imageProcessing->createWideImage($fileName);
 
             if(!empty($product['sale'])){
-                $salesArr = $product['sale'];
-                for($i = 0; $i < count($salesArr);$i++){
-                    $offset = $i*62;
-                    $color = $salesArr[$i]['color'];
-                    $text = '-'.$salesArr[$i]['text'].'%';
-                    $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                }
+                $productImg = $this->addSaleInfo($product,$fileName);
             }
 
             $productImg .= '?ver='.time();
@@ -290,6 +297,7 @@ class MailBlockGenerator
             $products = $productsBlock['products'];
             foreach ($products as $product) {
                 $link = $product['link'];
+
                 $price = $product['price'];
                 $newPrice = $product['newPrice'];
 
@@ -297,17 +305,14 @@ class MailBlockGenerator
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
 
+                if(!empty($settings['couponName'])) {
+                    $link = $link.'?coupon='.$settings['couponName'];
+                }
 
                 $productImg = $this->imageProcessing->createMediumImage($fileName);
 
                 if(!empty($product['sale'])){
-                    $salesArr = $product['sale'];
-                    for($i = 0; $i < count($salesArr);$i++){
-                        $offset = $i*62;
-                        $color = $salesArr[$i]['color'];
-                        $text = '-'.$salesArr[$i]['text'].'%';
-                        $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                    }
+                    $this->addSaleInfo($product,$fileName);
                 }
 
                 $productImg .= '?ver='.time();
@@ -372,6 +377,9 @@ class MailBlockGenerator
 
 
                 $dataProduct = $this->uploadDataToCache($product);
+                if(!empty($settings['couponName'])) {
+                    $link = $link.'?coupon='.$settings['couponName'];
+                }
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
                 $sale = '';
@@ -391,14 +399,8 @@ class MailBlockGenerator
 
             $imgOne = $this->imageProcessing->createBigImage($productsArr[0]['filename']);
             if(!empty($productsArr[0]['sale'])){
-                $salesArr = $productsArr[0]['sale'];
                 $fileName = $productsArr[0]['filename'];
-                for($i = 0; $i < count($salesArr);$i++){
-                    $offset = $i*62;
-                    $color = $salesArr[$i]['color'];
-                    $text = '-'.$salesArr[$i]['text'].'%';
-                    $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                }
+                $imgOne = $this->addSaleInfo($productsArr[0],$fileName);
             }
 
             $imgOne .= '?ver='.time();
@@ -406,15 +408,8 @@ class MailBlockGenerator
             $imgTwo = $this->imageProcessing->createSmallImage($productsArr[1]['filename']);
 
             if(!empty($productsArr[1]['sale'])){
-                $salesArr = $productsArr[1]['sale'];
                 $fileName = $productsArr[1]['filename'];
-
-                for($i = 0; $i < count($salesArr);$i++){
-                    $offset = $i*62;
-                    $color = $salesArr[$i]['color'];
-                    $text = '-'.$salesArr[$i]['text'].'%';
-                    $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                }
+                $imgTwo  = $this->addSaleInfo($productsArr[1],$fileName);
             }
 
             $imgTwo .= '?ver='.time();
@@ -468,6 +463,9 @@ class MailBlockGenerator
                 $newPrice = $product['newPrice'];
 
                 $dataProduct = $this->uploadDataToCache($product);
+                if(!empty($settings['couponName'])) {
+                    $link = $link.'?coupon='.$settings['couponName'];
+                }
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
                 $sale = '';
@@ -488,15 +486,8 @@ class MailBlockGenerator
             $imgOne = $this->imageProcessing->createSmallImage($productsArr[0]['filename']);
 
             if(!empty($productsArr[0]['sale'])){
-                $salesArr = $productsArr[0]['sale'];
                 $fileName = $productsArr[0]['filename'];
-
-                for($i = 0; $i < count($salesArr);$i++){
-                    $offset = $i*62;
-                    $color = $salesArr[$i]['color'];
-                    $text = '-'.$salesArr[$i]['text'].'%';
-                    $imgOne = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                }
+                $imgOne = $this->addSaleInfo($productsArr[0],$fileName);
             }
 
             $imgOne .= '?ver='.time();
@@ -504,15 +495,8 @@ class MailBlockGenerator
             $imgTwo = $this->imageProcessing->createBigImage($productsArr[1]['filename']);
 
             if(!empty($productsArr[1]['sale'])){
-                $salesArr = $productsArr[1]['sale'];
                 $fileName = $productsArr[1]['filename'];
-
-                for($i = 0; $i < count($salesArr);$i++){
-                    $offset = $i*62;
-                    $color = $salesArr[$i]['color'];
-                    $text = '-'.$salesArr[$i]['text'].'%';
-                    $imgTwo = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                }
+                $imgTwo = $this->addSaleInfo($productsArr[1],$fileName);
             }
 
             $imgTwo .= '?ver='.time();
@@ -567,19 +551,16 @@ class MailBlockGenerator
                 $newPrice = $product['newPrice'];
 
                 $dataProduct = $this->uploadDataToCache($product);
+                if(!empty($settings['couponName'])) {
+                    $link = $link.'?coupon='.$settings['couponName'];
+                }
                 $productName = $dataProduct['name'];
                 $fileName = $dataProduct['filename'];
 
                 $productImg = $this->imageProcessing->createSmallImage($fileName);
 
                 if(!empty($product['sale'])){
-                    $salesArr = $product['sale'];
-                    for($i = 0; $i < count($salesArr);$i++){
-                        $offset = $i*62;
-                        $color = $salesArr[$i]['color'];
-                        $text = '-'.$salesArr[$i]['text'].'%';
-                        $productImg = $this->imageProcessing->addSaleBlock($offset,$fileName,$text,$color);
-                    }
+                    $this->addSaleInfo($product,$fileName);
                 }
 
                 $productImg .= '?ver='.time();
@@ -679,6 +660,18 @@ class MailBlockGenerator
             'price' => $productInfo['price'],
             'oldPrice' => $productInfo['oldPrice']
         ];
+    }
+
+    private function addSaleInfo($productItem,$filename) {
+        $salesArr = $productItem['sale'];
+        $productImg = '';
+        for($i = 0; $i < count($salesArr);$i++){
+            $offset = $i*62;
+            $color = $salesArr[$i]['color'];
+            $text = '-'.$salesArr[$i]['text'].'%';
+            $productImg = $this->imageProcessing->addSaleBlock($offset,$filename,$text,$color);
+        }
+        return $productImg;
     }
 
 }

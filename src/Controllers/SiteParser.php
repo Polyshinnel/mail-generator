@@ -23,7 +23,19 @@ class SiteParser
         $settings = $this->siteSettings->findSettingsByHost($hostName);
 
         $xmlUrl = $settings[0]['site_xml'];
-        $xml = simplexml_load_file($xmlUrl);
+        $user = $settings[0]['feed_user'];
+        $pass = $settings[0]['feed_pass'];
+
+
+        $ch = curl_init($xmlUrl);
+        curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $xmlRaw = curl_exec($ch);
+        curl_close($ch);
+
+        $xml = simplexml_load_string($xmlRaw);
 
         $offers = $xml->shop->offers->offer;
 
