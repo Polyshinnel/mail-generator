@@ -339,8 +339,6 @@ function getProductData(products) {
 		});
 
 		productStructure.link = prodInfo[0];
-		productStructure.price = prodInfo[1];
-		productStructure.newPrice = prodInfo[2];
 		productStructure.sale = prodSaleBlock;
 
 		productsData.push(productStructure);
@@ -374,7 +372,7 @@ function createStructureBlockBodyProducts(productInfo) {
 				}
 			}
 
-			productsStructure+= '<div class="main-sidebar__product"><div class="main-sidebar__product-wrapper"><div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input type="text" placeholder="Ссылка на товар" value="'+link+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Старая цена</label><input type="text" placeholder="Старая цена" value="'+price+'"></div><div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin"><label for="">Цена</label><input type="text" placeholder="Цена" value="'+newPrice+'"></div></div><div class="sale-block"><h4>Скидки</h4><div class="sale-block__wrapper">'+salesStructure+'</div><div class="sale-block__btn"><p>Добавить скидку</p></div></div></div>';
+			productsStructure+= '<div class="main-sidebar__product"><div class="main-sidebar__product-wrapper"><div class="main-sidebar__block-prop-input"><label for="">Ссылка на товар</label><input type="text" placeholder="Ссылка на товар" value="'+link+'"></div></div><div class="sale-block"><h4>Скидки</h4><div class="sale-block__wrapper">'+salesStructure+'</div><div class="sale-block__btn"><p>Добавить скидку</p></div></div></div>';
 		}
 	}
 	

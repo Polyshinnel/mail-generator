@@ -557,7 +557,7 @@ class MailBlockGenerator
 
         return [
             'sale' => $salesArr,
-            'price' => $price,
+            'price' => ceil($price),
             'oldPrice' => $oldPrice
         ];
     }
