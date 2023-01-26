@@ -250,40 +250,23 @@ class MailBlockGenerator
         $blockData = '';
 
         if($nameBlock == 'single-product') {
-            $product = $productsBlock['products'][0];
-            $dataProduct = $this->uploadDataToCache($product);
-
-            $link = $product['link'];
-            if(!empty($settings['couponName'])) {
-                $link = $link.'?coupon='.$settings['couponName'];
-            }
-            $price = $product['price'];
-            $newPrice = $product['newPrice'];
-            $productName = $dataProduct['name'];
-            $fileName = $dataProduct['filename'];
-            $productImg = $this->imageProcessing->createWideImage($fileName);
-
-            if(!empty($product['sale'])){
-                $productImg = $this->addSaleInfo($product,$fileName);
-            }
-
-            $productImg .= '?ver='.time();
-
+            $products = $productsBlock['products'];
+            $productsData = $this->productProcessing($products,$nameBlock,$settings);
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="center" style="background-color: #F5F5F5">
-                    <a href="'.$link.'"
+                    <a href="'.$productsData[0]['link'].'"
                       style="text-decoration: none;">
-                      <img src="'.$productImg.'" alt="'.$productName.'" width="540"
+                      <img src="'.$productsData[0]['img'].'" alt="'.$productsData[0]['name'].'" width="540"
                         height="370">
                       <div style="text-align: left; padding: 0 24px 24px">
                         <div style="font-size: 16px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$newPrice.' руб.</span>
-                          <s style="color: #000;">'.$price.' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 16px; line-height: 23px; padding-right: 10px;">
-                          '.$productName.'
+                          '.$productsData[0]['name'].'
                         </span>
                       </div>
                     </a>
@@ -293,54 +276,24 @@ class MailBlockGenerator
         }
 
         if($nameBlock == 'two-product') {
-            $productsArr = [];
             $products = $productsBlock['products'];
-            foreach ($products as $product) {
-                $link = $product['link'];
-
-                $price = $product['price'];
-                $newPrice = $product['newPrice'];
-
-                $dataProduct = $this->uploadDataToCache($product);
-                $productName = $dataProduct['name'];
-                $fileName = $dataProduct['filename'];
-
-                if(!empty($settings['couponName'])) {
-                    $link = $link.'?coupon='.$settings['couponName'];
-                }
-
-                $productImg = $this->imageProcessing->createMediumImage($fileName);
-
-                if(!empty($product['sale'])){
-                    $this->addSaleInfo($product,$fileName);
-                }
-
-                $productImg .= '?ver='.time();
-
-                $productsArr[] = [
-                    'name' => $productName,
-                    'link' => $link,
-                    'price' => $price,
-                    'newPrice' => $newPrice,
-                    'img' => $productImg
-                ];
-            }
+            $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="top">
                   <td align="left">
                     <div style="text-align: left; width: 256px;">
-                      <a href="'.$productsArr[0]['link'].'"
+                      <a href="'.$productsData[0]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$productsArr[0]['img'].'" alt="'.$productsArr[0]['name'].'" width="256"
+                        <img src="'.$productsData[0]['img'].'" alt="'.$productsData[0]['name'].'" width="256"
                           height="255" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[0]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[0]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[0]['name'].'
+                          '.$productsData[0]['name'].'
                         </span>
                       </a>
                     </div>
@@ -348,17 +301,17 @@ class MailBlockGenerator
 
                   <td align="right">
                     <div style="text-align: left; width: 256px;">
-                      <a href="'.$productsArr[1]['link'].'"
+                      <a href="'.$productsData[1]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$productsArr[1]['img'].'" alt="'.$productsArr[1]['name'].'" width="256"
+                        <img src="'.$productsData[1]['img'].'" alt="'.$productsData[1]['name'].'" width="256"
                           height="255" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[1]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[1]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[1]['name'].'
+                          '.$productsData[1]['name'].'
                         </span>
                       </a>
                     </div>
@@ -368,84 +321,41 @@ class MailBlockGenerator
         }
 
         if($nameBlock == 'two-product-1') {
-            $productsArr = [];
             $products = $productsBlock['products'];
-            foreach ($products as $product) {
-                $link = $product['link'];
-                $price = $product['price'];
-                $newPrice = $product['newPrice'];
-
-
-                $dataProduct = $this->uploadDataToCache($product);
-                if(!empty($settings['couponName'])) {
-                    $link = $link.'?coupon='.$settings['couponName'];
-                }
-                $productName = $dataProduct['name'];
-                $fileName = $dataProduct['filename'];
-                $sale = '';
-                if(!empty($product['sale'])) {
-                    $sale = $product['sale'];
-                }
-
-                $productsArr[] = [
-                    'name' => $productName,
-                    'link' => $link,
-                    'price' => $price,
-                    'newPrice' => $newPrice,
-                    'filename' => $fileName,
-                    'sale' => $sale
-                ];
-            }
-
-            $imgOne = $this->imageProcessing->createBigImage($productsArr[0]['filename']);
-            if(!empty($productsArr[0]['sale'])){
-                $fileName = $productsArr[0]['filename'];
-                $imgOne = $this->addSaleInfo($productsArr[0],$fileName);
-            }
-
-            $imgOne .= '?ver='.time();
-
-            $imgTwo = $this->imageProcessing->createSmallImage($productsArr[1]['filename']);
-
-            if(!empty($productsArr[1]['sale'])){
-                $fileName = $productsArr[1]['filename'];
-                $imgTwo  = $this->addSaleInfo($productsArr[1],$fileName);
-            }
-
-            $imgTwo .= '?ver='.time();
+            $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="left">
                     <div style="text-align: left; width: 351px;">
-                      <a href="'.$productsArr[0]['link'].'"
+                      <a href="'.$productsData[0]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$imgOne.'" alt="'.$productsArr[0]['name'].'" width="351"
+                        <img src="'.$productsData[0]['img'].'" alt="'.$productsData[0]['name'].'" width="351"
                           height="350" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[0]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[0]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[0]['name'].'
+                          '.$productsData[0]['name'].'
                         </span>
                       </a>
                     </div>
                   </td>
                   <td align="right">
                     <div style="text-align: left; width: 162px;">
-                      <a href="'.$productsArr[1]['link'].'"
+                      <a href="'.$productsData[1]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$imgTwo.'" alt="'.$productsArr[1]['name'].'" width="162"
+                        <img src="'.$productsData[1]['img'].'" alt="'.$productsData[1]['name'].'" width="162"
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[1]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[1]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[1]['name'].'
+                          '.$productsData[1]['name'].'
                         </span>
                       </a>
                     </div>
@@ -455,85 +365,41 @@ class MailBlockGenerator
         }
 
         if($nameBlock == 'two-product-2') {
-            $productsArr = [];
             $products = $productsBlock['products'];
-            foreach ($products as $product) {
-                $link = $product['link'];
-                $price = $product['price'];
-                $newPrice = $product['newPrice'];
-
-                $dataProduct = $this->uploadDataToCache($product);
-                if(!empty($settings['couponName'])) {
-                    $link = $link.'?coupon='.$settings['couponName'];
-                }
-                $productName = $dataProduct['name'];
-                $fileName = $dataProduct['filename'];
-                $sale = '';
-                if(!empty($product['sale'])) {
-                    $sale = $product['sale'];
-                }
-
-                $productsArr[] = [
-                    'name' => $productName,
-                    'link' => $link,
-                    'price' => $price,
-                    'newPrice' => $newPrice,
-                    'filename' => $fileName,
-                    'sale' => $sale
-                ];
-            }
-
-            $imgOne = $this->imageProcessing->createSmallImage($productsArr[0]['filename']);
-
-            if(!empty($productsArr[0]['sale'])){
-                $fileName = $productsArr[0]['filename'];
-                $imgOne = $this->addSaleInfo($productsArr[0],$fileName);
-            }
-
-            $imgOne .= '?ver='.time();
-
-            $imgTwo = $this->imageProcessing->createBigImage($productsArr[1]['filename']);
-
-            if(!empty($productsArr[1]['sale'])){
-                $fileName = $productsArr[1]['filename'];
-                $imgTwo = $this->addSaleInfo($productsArr[1],$fileName);
-            }
-
-            $imgTwo .= '?ver='.time();
-
+            $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="left">
                     <div style="text-align: left; width: 162px;">
-                      <a href="'.$productsArr[0]['link'].'"
+                      <a href="'.$productsData[0]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$imgOne.'" alt="'.$productsArr[0]['name'].'" width="162"
+                        <img src="'.$productsData[0]['img'].'" alt="'.$productsData[0]['name'].'" width="162"
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[0]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[0]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[0]['name'].'
+                          '.$productsData[0]['name'].'
                         </span>
                       </a>
                     </div>
                   </td>
                   <td align="right">
                     <div style="text-align: left; width: 351px;">
-                      <a href="'.$productsArr[1]['link'].'"
+                      <a href="'.$productsData[1]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$imgTwo.'" alt="'.$productsArr[1]['name'].'" width="351"
+                        <img src="'.$productsData[1]['img'].'" alt="'.$productsData[1]['name'].'" width="351"
                           height="350" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[1]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[1]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[1]['name'].'
+                          '.$productsData[1]['name'].'
                         </span>
                       </a>
                     </div>
@@ -543,86 +409,58 @@ class MailBlockGenerator
         }
 
         if($nameBlock == 'three-product') {
-            $productsArr = [];
             $products = $productsBlock['products'];
-            foreach ($products as $product) {
-                $link = $product['link'];
-                $price = $product['price'];
-                $newPrice = $product['newPrice'];
-
-                $dataProduct = $this->uploadDataToCache($product);
-                if(!empty($settings['couponName'])) {
-                    $link = $link.'?coupon='.$settings['couponName'];
-                }
-                $productName = $dataProduct['name'];
-                $fileName = $dataProduct['filename'];
-
-                $productImg = $this->imageProcessing->createSmallImage($fileName);
-
-                if(!empty($product['sale'])){
-                    $this->addSaleInfo($product,$fileName);
-                }
-
-                $productImg .= '?ver='.time();
-
-                $productsArr[] = [
-                    'name' => $productName,
-                    'link' => $link,
-                    'price' => $price,
-                    'newPrice' => $newPrice,
-                    'img' => $productImg
-                ];
-            }
+            $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="top">
                   <td align="left">
                     <div style="text-align: left; width: 162px;">
-                      <a href="'.$productsArr[0]['link'].'"
+                      <a href="'.$productsData[0]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$productsArr[0]['img'].'" alt="'.$productsArr[0]['name'].'" width="162"
+                        <img src="'.$productsData[0]['img'].'" alt="'.$productsData[0]['name'].'" width="162"
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[0]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[0]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[0]['name'].'
+                          '.$productsData[0]['name'].'
                         </span>
                       </a>
                     </div>
                   </td>
                   <td align="center">
                     <div style="text-align: left; width: 162px;">
-                      <a href="'.$productsArr[1]['link'].'"
+                      <a href="'.$productsData[1]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$productsArr[1]['img'].'" alt="'.$productsArr[1]['name'].'" width="162"
+                        <img src="'.$productsData[1]['img'].'" alt="'.$productsData[1]['name'].'" width="162"
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[1]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[1]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[1]['name'].'
+                          '.$productsData[1]['name'].'
                         </span>
                       </a>
                     </div>
                   </td>
                   <td align="right">
                     <div style="text-align: left; width: 162px;">
-                      <a href="'.$productsArr[2]['link'].'"
+                      <a href="'.$productsData[2]['link'].'"
                         class="product" style="text-decoration: none;">
-                        <img src="'.$productsArr[2]['img'].'" alt="'.$productsArr[2]['name'].'" width="162"
+                        <img src="'.$productsData[2]['img'].'" alt="'.$productsData[2]['name'].'" width="162"
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
-                          <span style="color: #39B54A;">'.$productsArr[2]['newPrice'].' руб.</span>
-                          <s style="color: #000;">'.$productsArr[2]['price'].' руб.</s>
+                          <span style="color: #39B54A;">'.$productsData[2]['price'].' руб.</span>
+                          <s style="color: #000;">'.$productsData[2]['oldPrice'].' руб.</s>
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
-                          '.$productsArr[2]['name'].'
+                          '.$productsData[2]['name'].'
                         </span>
                       </a>
                     </div>
@@ -662,16 +500,133 @@ class MailBlockGenerator
         ];
     }
 
-    private function addSaleInfo($productItem,$filename) {
-        $salesArr = $productItem['sale'];
+    private function addSaleInfo(array $sales,String $filename): String {
         $productImg = '';
-        for($i = 0; $i < count($salesArr);$i++){
+        for($i = 0; $i < count($sales);$i++){
             $offset = $i*62;
-            $color = $salesArr[$i]['color'];
-            $text = '-'.$salesArr[$i]['text'].'%';
+            $color = $sales[$i]['color'];
+            $text = '-'.$sales[$i]['text'].'%';
             $productImg = $this->imageProcessing->addSaleBlock($offset,$filename,$text,$color);
         }
         return $productImg;
+    }
+
+    private function addSales(array $settings,array $productData): array {
+        $salesArr = [];
+        $price = (int)$productData['price'];
+        $oldPrice = (int)$productData['oldPrice'];
+
+        if(!$settings['ignoreSite']) {
+            if((!empty($oldPrice)) && ($oldPrice > $price)) {
+                $percent = ceil(($price/$oldPrice)*100);
+                $percent = 100 - $percent;
+                $color = $settings['saleColor1'];
+                $salesArr[] = [
+                    'text' => $percent,
+                    'color' => $color
+                ];
+            }
+        }
+
+        if(!empty($settings['salePercent'])) {
+            $color = $settings['saleColor2'];
+            $text = $settings['salePercent'];
+            if(empty($oldPrice)) {
+                $oldPrice = $price;
+            }
+            $price = ceil($price*((100 - $settings['salePercent'])/100));
+            $salesArr[] = [
+                'text' => $text,
+                'color' => $color
+            ];
+        }
+
+        return [
+            'sale' => $salesArr,
+            'price' => $price,
+            'oldPrice' => $oldPrice
+        ];
+    }
+
+    private function productProcessing($products,$blockType,$settings) {
+        $productArr = [];
+        $counter = 0;
+
+        foreach ($products as $product) {
+            $dataProduct = $this->uploadDataToCache($product);
+            $link = $product['link'];
+
+            //add coupon to link
+            if(!empty($settings['couponName'])) {
+                $link = $link.'?coupon='.$settings['couponName'];
+            }
+
+            //get add info for sale
+            $addInfo = $this->addSales($settings,$dataProduct);
+            $oldPrice = $addInfo['oldPrice'];
+            $price = $addInfo['price'];
+            $productName = $dataProduct['name'];
+            $fileName = $dataProduct['filename'];
+
+            //createImage
+            if($blockType == 'single-product') {
+                $productImg = $this->imageProcessing->createWideImage($fileName);
+            }
+
+            if($blockType == 'two-product') {
+                $productImg = $this->imageProcessing->createMediumImage($fileName);
+            }
+
+            if($blockType == 'two-product-1') {
+                $productImg = $this->imageProcessing->createBigImage($fileName);
+                if($counter == 1) {
+                    $productImg = $this->imageProcessing->createSmallImage($fileName);
+                }
+            }
+
+            if($blockType == 'two-product-2') {
+                $productImg = $this->imageProcessing->createSmallImage($fileName);
+                if($counter == 1) {
+                    $productImg = $this->imageProcessing->createBigImage($fileName);
+                }
+            }
+
+            if($blockType == 'three-product') {
+                $productImg = $this->imageProcessing->createSmallImage($fileName);
+            }
+
+
+            //add sales
+            $sales = $product['sale'];
+            if(empty($sales)) {
+                $sales = [];
+            }
+            $addSales = $addInfo['sale'];
+
+            if(!empty($addSales)) {
+                foreach ($addSales as $itemSales) {
+                    $sales[] = $itemSales;
+                }
+            }
+
+            if(!empty($sales)){
+                $productImg = $this->addSaleInfo($sales,$fileName);
+            }
+
+            $productImg .= '?ver='.time();
+
+            $productArr[] = [
+                'name' => $productName,
+                'price' => $price,
+                'oldPrice' => $oldPrice,
+                'img' => $productImg,
+                'link' => $link
+            ];
+
+            $counter++;
+        }
+
+        return $productArr;
     }
 
 }
