@@ -511,7 +511,7 @@ class MailBlockGenerator
         return $productImg;
     }
 
-    private function addSales(array $settings,array $productData): array {
+    private function addSales(array $settings,array $productData,array $sales): array {
         $salesArr = [];
         $price = (int)$productData['price'];
         $oldPrice = (int)$productData['oldPrice'];
@@ -541,6 +541,20 @@ class MailBlockGenerator
             ];
         }
 
+        if(!empty($sales)) {
+            if(empty($oldPrice)) {
+                $oldPrice = $price;
+            }
+            foreach ($sales as $sale) {
+                $percent = (100-(int)$sale['text'])/100;
+                $price = $price*$percent;
+                $salesArr[] = [
+                    'text' => $sale['text'],
+                    'color' => $sale['color']
+                ];
+            }
+        }
+
         return [
             'sale' => $salesArr,
             'price' => $price,
@@ -562,7 +576,17 @@ class MailBlockGenerator
             }
 
             //get add info for sale
-            $addInfo = $this->addSales($settings,$dataProduct);
+            $sales = $product['sale'];
+            if(empty($sales)) {
+                $sales = [];
+            }
+
+            $addInfo = $this->addSales($settings,$dataProduct,$sales);
+
+            if(!empty($addInfo['sale'])) {
+                $sales = $addInfo['sale'];
+            }
+
             $oldPrice = $addInfo['oldPrice'];
             $price = $addInfo['price'];
             $productName = $dataProduct['name'];
@@ -593,20 +617,6 @@ class MailBlockGenerator
 
             if($blockType == 'three-product') {
                 $productImg = $this->imageProcessing->createSmallImage($fileName);
-            }
-
-
-            //add sales
-            $sales = $product['sale'];
-            if(empty($sales)) {
-                $sales = [];
-            }
-            $addSales = $addInfo['sale'];
-
-            if(!empty($addSales)) {
-                foreach ($addSales as $itemSales) {
-                    $sales[] = $itemSales;
-                }
             }
 
             if(!empty($sales)){
