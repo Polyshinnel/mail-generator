@@ -26,4 +26,6 @@ return static function (App $app): void {
     $app->post('/generateMail',[GenerateMailPage::class,'get']);
     $app->get('/templates/views/{id}',[TemplateViewPage::class,'get']);
     $app->post('/createTemplate',[TemplatesPage::class,'createTemplate']);
+    $app->post('/updateTemplate',[TemplatesPage::class,'updateTemplate']);
+    $app->post('/deleteTemplate',[TemplatesPage::class,'deleteTemplate']);
 };

@@ -8,8 +8,8 @@ use App\Repository\TemplateRepository;
 
 class TemplatesController
 {
-    private $templateRepository;
-    private $screenShooter;
+    private TemplateRepository $templateRepository;
+    private ScreenShooter $screenShooter;
 
     public function __construct(TemplateRepository $templateRepository,ScreenShooter $screenShooter)
     {
@@ -17,26 +17,26 @@ class TemplatesController
         $this->screenShooter = $screenShooter;
     }
 
-    public function getAllRepository() {
+    public function getAllRepository(): ?array {
         return $this->templateRepository->getAllTemplates();
     }
 
-    public function getTemplateViewById($id) {
+    public function getTemplateViewById(int $id): String {
         $template = $this->templateRepository->getTemplateById($id);
         return $template['json'];
     }
 
-    public function getTemplateById($id) {
+    public function getTemplateById(int $id): array {
         return $this->templateRepository->getTemplateById($id);
     }
 
-    private function updateImg($id) {
+    private function updateImg(int $id): void {
         $img = $this->screenShooter->getScreenShot($id);
         $column = 'img';
         $this->templateRepository->updateTemplateById($id,$img,$column);
     }
 
-    public function createTemplate($json,$name = NULL) {
+    public function createTemplate(String $json,String $name = NULL): void{
         $allTemp = $this->templateRepository->getAllTemplates();
         $tempName = $name;
 
@@ -63,5 +63,15 @@ class TemplatesController
         $this->templateRepository->createTemplate($createArr);
         $id = $this->templateRepository->getLastId();
         $this->updateImg($id);
+    }
+
+    public function updateTemplate(int $id,String $json,String $name): void {
+        $this->templateRepository->updateTemplateById($id,$json,'json');
+        $this->templateRepository->updateTemplateById($id,$name,'name');
+        $this->updateImg($id);
+    }
+
+    public function deleteTemplate(int $id): void {
+        $this->templateRepository->deleteTemplateById($id);
     }
 }

@@ -535,6 +535,12 @@
                 </div>
                 {% endif %}
                 {% endfor %}
+
+                <div class="structure-wrapper__save">
+                    <button class="structure-wrapper__save-update">Обновить шаблон</button>
+                    <button class="structure-wrapper__save-copy">Копировать шаблон</button>
+                    <button class="structure-wrapper__save-delete" data-id="{{ id }}">Удалить шаблон</button>
+                </div>
             </div>
             <!--/block for append elements-->
 
@@ -978,28 +984,47 @@
             </div>
             <!--footer-->
 
-            <!--save template-->
+            <!--update template-->
             <div class="main-sidebar__block-prop main-sidebar__save-template-block" data-block="update-template">
-                <h4 class="main-sidebar__block-prop-title">Сохранить шаблон</h4>
+                <h4 class="main-sidebar__block-prop-title">Обновить шаблон</h4>
 
                 <div class="main-sidebar__block-prop-input">
                     <label for="">Имя шаблона</label>
-                    <input type="text" placeholder="Имя шаблона">
+                    <input type="text" placeholder="Имя шаблона" value="{{ title }}">
                 </div>
 
                 <div class="main-sidebar__block-prop-btns">
-                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-save"
-                         data-btn="save-data">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-update" data-btn="{{ id }}">
                         <img src="/assets/images/icons/save.svg" alt="">
                     </div>
-                    <div
-                            class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
                         <img src="/assets/images/icons/cross.svg" alt="">
                     </div>
                 </div>
 
             </div>
-            <!--save template-->
+            <!--update template-->
+
+            <!--copy template-->
+            <div class="main-sidebar__block-prop main-sidebar__save-template-block" data-block="copy-template">
+                <h4 class="main-sidebar__block-prop-title">Скопировать шаблон</h4>
+
+                <div class="main-sidebar__block-prop-input">
+                    <label for="">Новое имя шаблона</label>
+                    <input type="text" placeholder="Новое имя шаблона" value="{{ title }}">
+                </div>
+
+                <div class="main-sidebar__block-prop-btns">
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept-save" data-btn="save-data">
+                        <img src="/assets/images/icons/save.svg" alt="">
+                    </div>
+                    <div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_main">
+                        <img src="/assets/images/icons/cross.svg" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <!--copy template-->
 
             <!--general template settings-->
             <div class="main-sidebar__block-prop main-sidebar__general-settings" data-block="template-settings" style="display:none;">

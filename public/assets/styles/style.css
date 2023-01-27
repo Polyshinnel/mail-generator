@@ -844,4 +844,16 @@ body {
   color: #fff;
   font-size: 13px;
   margin-left: 15px;
+}
+
+.structure-wrapper__save-update {
+  background: #6D5BD0;
+}
+
+.structure-wrapper__save-copy {
+  background: #514694;
+}
+
+.structure-wrapper__save-delete {
+  background: #D30000;
 }/*# sourceMappingURL=style.css.map */

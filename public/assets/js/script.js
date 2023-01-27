@@ -581,6 +581,20 @@ function getStructureJson() {
 			$('#copy-block').val(data);
 		}
 	});
+
+	let url = window.location.pathname;
+	let urlArr = url.split('/');
+	let pathname = urlArr[urlArr.length-2];
+	if(pathname == 'template') {
+		let id = urlArr[urlArr.length-1];
+		let btns = $('.structure-wrapper__save');
+		if(!btns.length) {
+			let btnBlock = '<div class="structure-wrapper__save"><button class="structure-wrapper__save-update">Обновить шаблон</button><button class="structure-wrapper__save-copy">Копировать шаблон</button><button class="structure-wrapper__save-delete" data-id="'+id+'">Удалить шаблон</button></div>';
+			$('.structure-wrapper').append(btnBlock);
+		}
+	}
+
+
 }
 
 
@@ -822,3 +836,84 @@ $('.save-settings').click(function(){
 	$('.main-sidebar__blocks').css('display','flex');
 	getStructureJson();
 });
+
+$(document).on('click','.structure-wrapper__save-update',function () {
+	$('.main-sidebar__save-template-block').each(function () {
+		let blockName = $(this).attr('data-block');
+		if(blockName === 'update-template') {
+			$('.main-sidebar__header').fadeOut(300);
+			$('.structure-wrapper').fadeOut(300);
+			$('.main-sidebar__header-btn').each(function(){
+				$(this).removeClass('main-sidebar__header-btn_active');
+				let attr = $(this).attr('data-item');
+				if(attr === 'blocks') {
+					$(this).addClass('main-sidebar__header-btn_active');
+				}
+			});
+			$(this).css('display','block');
+		}
+	});
+});
+
+
+$(document).on('click','.structure-wrapper__save-copy',function () {
+	$('.main-sidebar__save-template-block').each(function () {
+		let blockName = $(this).attr('data-block');
+		if(blockName === 'copy-template') {
+			$('.main-sidebar__header').fadeOut(300);
+			$('.structure-wrapper').fadeOut(300);
+			$('.main-sidebar__header-btn').each(function(){
+				$(this).removeClass('main-sidebar__header-btn_active');
+				let attr = $(this).attr('data-item');
+				if(attr === 'blocks') {
+					$(this).addClass('main-sidebar__header-btn_active');
+				}
+			});
+			$(this).css('display','block');
+		}
+	});
+})
+
+
+$('.main-sidebar__block-prop-btn_accept-update').click(function () {
+	let name = $(this).parent().parent().find('input').val();
+	let json = getStructureJsonToSave();
+	let id = $(this).attr('data-btn');
+	$('.await-window').fadeIn(300);
+
+	$.ajax({
+		url: '/updateTemplate',
+		method: 'post',
+		dataType: 'html',
+		data: {
+			'id' : id,
+			'name' : name,
+			'json': json
+		},
+		success: function(data){
+			$('.await-window').fadeOut(300);
+			$(this).parent().parent().find('input').val(name);
+			$('.main-sidebar__save-template-block').each(function () {
+				$(this).css('display','none');
+			});
+			$('.main-sidebar__header').css('display','flex');
+			$('.main-sidebar__blocks').css('display','flex');
+		}
+	});
+});
+
+$(document).on('click','.structure-wrapper__save-delete',function () {
+	let id = $(this).attr('data-id');
+
+	$.ajax({
+		url: '/deleteTemplate',
+		method: 'post',
+		dataType: 'html',
+		data: {
+			'id' : id,
+		},
+		success: function(data){
+			$(location).attr('href','/templates');
+		}
+	});
+})

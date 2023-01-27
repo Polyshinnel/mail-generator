@@ -65,7 +65,8 @@ class TemplatesPage
         $data = $this->twig->fetch('template.twig', [
             'title' => $name,
             'json' => $jsonArr,
-            'mail' => $mail
+            'mail' => $mail,
+            'id' => $id
         ]);
 
 
@@ -81,6 +82,32 @@ class TemplatesPage
         $json = $dataArr['json'];
         $name = $dataArr['name'];
         $this->templatesController->createTemplate($json,$name);
+
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'text/html']),
+            (new StreamFactory())->createStream('')
+        );
+    }
+
+    public function updateTemplate(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $dataArr = $request->getParsedBody();
+        $json = $dataArr['json'];
+        $id = $dataArr['id'];
+        $name = $dataArr['name'];
+        $this->templatesController->updateTemplate($id,$json,$name);
+
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'text/html']),
+            (new StreamFactory())->createStream('')
+        );
+    }
+
+    public function deleteTemplate(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $dataArr = $request->getParsedBody();
+        $id = $dataArr['id'];
+        $this->templatesController->deleteTemplate($id);
 
         return new Response(
             200,
