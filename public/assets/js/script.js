@@ -556,6 +556,7 @@ function getStructureJson() {
 	settingsArr.saleColor2 = $('#sale-color-2').val();
 	settingsArr.couponName = $('#coupon-name').val();
 	settingsArr.salePercent = $('#sale-percent').val();
+	settingsArr.mailTheme = $('#mail-theme').val();
 	let ignoreSite = false;
 	if ($('#ignore-site-sale').is(':checked')){
 		ignoreSite = true;
@@ -794,6 +795,8 @@ function getStructureJsonToSave() {
 	settingsArr.saleColor2 = $('#sale-color-2').val();
 	settingsArr.couponName = $('#coupon-name').val();
 	settingsArr.salePercent = $('#sale-percent').val();
+	settingsArr.mailTheme = $('#mail-theme').val();
+
 	let ignoreSite = false;
 	if ($('#ignore-site-sale').is(':checked')){
 		ignoreSite = true;

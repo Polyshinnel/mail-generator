@@ -31,10 +31,19 @@ class TemplateViewPage
         $id = $args['id'];
         $json = $this->templatesController->getTemplateViewById($id);
         $jsonArr = json_decode($json,true);
+        $settings = [];
+
+        //get settings
+        foreach ($jsonArr as $jsonItem) {
+            if($jsonItem['blockName'] == 'settings') {
+                $settings = $jsonItem;
+            }
+        }
+
         $mailBlocks = $this->mailCreator->finalCreateMail($jsonArr);
         $siteName = $this->mailCreator->getSiteName($jsonArr);
 
-        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName);
+        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName,$settings);
 
         return new Response(
             200,

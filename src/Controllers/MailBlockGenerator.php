@@ -30,9 +30,13 @@ class MailBlockGenerator
     }
 
 
-    public function createMail(String $mailBlocks,String $siteName): String {
+    public function createMail(String $mailBlocks,String $siteName,array $settings): String {
         $siteInfo = $this->settingsRepository->findSettingsByName($siteName);
         $siteInfo = $siteInfo[0];
+        $mailTheme = $settings['mailTheme'];
+        $saleText = '-'.$settings['salePercent'].'%';
+        $coupon = $settings['couponName'];
+        $saleMotto = 'Скидка '.$settings['salePercent'].'% только по промокоду!';
 
 
         $mailHead = '
@@ -47,11 +51,11 @@ class MailBlockGenerator
             <body
               style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: Verdana, sans-serif; font-size: 12px; font-weight: normal; line-height: 1; margin: 0; min-width: 100%; padding: 0; width: 100% !important;">
               <div itemscope="" itemtype="http://schema.org/DiscountOffer">
-                <meta itemprop="description" content="—30%">
-                <meta itemprop="discountCode" content="GIFT2023">
+                <meta itemprop="description" content="'.$saleText.'">
+                <meta itemprop="discountCode" content="'.$coupon.'">
               </div>
               <div itemscope="" itemtype="http://schema.org/EmailMessage">
-                <meta itemprop="subjectLine" content="Лучший момент покупать подарки со скидкой на '.$siteInfo['site_addr_short'].'!">
+                <meta itemprop="subjectLine" content="'.$mailTheme.'">
               </div>
               <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding: 15px">
                 <tr>
@@ -60,7 +64,7 @@ class MailBlockGenerator
                       style=" padding:0 30px; border: 1px solid #ECECEC; border-radius: 10px;">
                       <tr>
                         <td>
-                          <div style="display: none; max-height: 0px; overflow: hidden;">Скидка 30% только по промокоду!</div>
+                          <div style="display: none; max-height: 0px; overflow: hidden;">'.$saleMotto.'</div>
                           <div style="display: none; max-height: 0px; overflow: hidden;">
                             &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
                           </div>

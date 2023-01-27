@@ -1033,6 +1033,11 @@
                 {% for jsonItem in json %}
                     {% if jsonItem.blockName == 'settings' %}
                         <div class="main-sidebar__block-prop-input">
+                            <label for="">Тема письма</label>
+                            <input type="text" placeholder="Тема письма" value="" id="mail-theme">
+                        </div>
+
+                        <div class="main-sidebar__block-prop-input main-sidebar__block-prop-input_margin">
                             <label for="">Цвет плашки скидки 1</label>
                             <input type="text" placeholder="#ff0000" value="{{ jsonItem.saleColor1 }}" id="sale-color-1">
                         </div>

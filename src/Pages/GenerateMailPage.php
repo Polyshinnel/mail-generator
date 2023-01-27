@@ -28,10 +28,19 @@ class GenerateMailPage
         $dataArr = $request->getParsedBody();
         $jsonArr = json_decode($dataArr['json'],true);
 
+        $settings = [];
+
+        //get settings
+        foreach ($jsonArr as $jsonItem) {
+            if($jsonItem['blockName'] == 'settings') {
+                $settings = $jsonItem;
+            }
+        }
+
         $mailBlocks = $this->mailCreator->finalCreateMail($jsonArr);
         $siteName = $this->mailCreator->getSiteName($jsonArr);
 
-        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName);
+        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName,$settings);
 
 
 
