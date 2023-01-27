@@ -98,7 +98,36 @@ $(document).on('click','.main-sidebar__block-prop-select-list li',function () {
 
 $(document).on('click','.main-sidebar__block-prop-btn_accept_add',function(){
 	$(this).parent().parent().slideUp();
-	getStructureJson();
+	let bannerBlock = $(this).parent().parent().find('.banner-img');
+	if(bannerBlock.length) {
+		let bannerImg = $(this).parent().parent().find('.banner-img').attr('src');
+
+		//upload data to server
+		let url = "/uploadImage";
+		let base64ImageContent = bannerImg.replace(/^data:image\/(png|jpg);base64,/, "");
+		base64ImageContent = base64ImageContent.replace(/^data:image\/jpeg;base64,/, "");
+		let blob = base64ToBlob(base64ImageContent, 'image/png');
+		let formData = new FormData();
+		formData.append('userFile', blob);
+		$.ajax({
+			url: url,
+			type: "POST",
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: formData
+		})
+			.done(function(e){
+				let jsonObj = $.parseJSON(e);
+				let bannerImg = jsonObj.fileLink;
+				console.log(bannerImg);
+				bannerBlock.attr('src',bannerImg);
+				getStructureJson();
+			});
+	} else {
+		getStructureJson();
+	}
+
 })
 
 $('.main-sidebar__block-prop-btn_accept-main').click(function(){
@@ -147,6 +176,7 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 			let structureWrapper = $('.structure-wrapper');
 			structureWrapper.append(structureBlock);
 			structureWrapper.css('display','block');
+			$(this).parent().parent().find('.banner-img').attr('src',bannerImg);
 			getStructureJson();
 		});
 
