@@ -14,7 +14,8 @@ class Template extends Model
         'name',
         'img',
         'date_create',
-        'json'
+        'json',
+        'html'
     ];
     public $timestamps = false;
 }

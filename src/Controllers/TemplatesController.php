@@ -21,9 +21,8 @@ class TemplatesController
         return $this->templateRepository->getAllTemplates();
     }
 
-    public function getTemplateViewById(int $id): String {
-        $template = $this->templateRepository->getTemplateById($id);
-        return $template['json'];
+    public function getTemplateViewById(int $id): array {
+        return $this->templateRepository->getTemplateById($id);
     }
 
     public function getTemplateById(int $id): array {
@@ -36,7 +35,7 @@ class TemplatesController
         $this->templateRepository->updateTemplateById($id,$img,$column);
     }
 
-    public function createTemplate(String $json,String $name = NULL): void{
+    public function createTemplate(String $json,String $html,String $name = NULL): void{
         $allTemp = $this->templateRepository->getAllTemplates();
         $tempName = $name;
 
@@ -52,22 +51,26 @@ class TemplatesController
             $tempName = 'Шаблон '.$num;
         }
 
-
+        //Encode HTML to save in DB
+        $html = htmlspecialchars($html);
 
         $createArr = [
             'name' => $tempName,
             'img' => '',
             'date_create' => date("Y-m-d"),
-            'json' => $json
+            'json' => $json,
+            'html' => $html
         ];
         $this->templateRepository->createTemplate($createArr);
         $id = $this->templateRepository->getLastId();
         $this->updateImg($id);
     }
 
-    public function updateTemplate(int $id,String $json,String $name): void {
+    public function updateTemplate(int $id,String $json,String $html,String $name): void {
+        $html = htmlspecialchars($html);
         $this->templateRepository->updateTemplateById($id,$json,'json');
         $this->templateRepository->updateTemplateById($id,$name,'name');
+        $this->templateRepository->updateTemplateById($id,$html,'html');
         $this->updateImg($id);
     }
 

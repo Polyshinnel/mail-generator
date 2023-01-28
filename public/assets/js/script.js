@@ -811,6 +811,7 @@ function getStructureJsonToSave() {
 $('.main-sidebar__block-prop-btn_accept-save').click(function () {
 	let name = $(this).parent().parent().find('input').val();
 	let json = getStructureJsonToSave();
+	let html = $('#copy-block').val();
 	$('.await-window').fadeIn(300);
 
 	$.ajax({
@@ -819,7 +820,8 @@ $('.main-sidebar__block-prop-btn_accept-save').click(function () {
 		dataType: 'html',
 		data: {
 			'name' : name,
-			'json': json
+			'json': json,
+			'html' : html
 		},
 		success: function(data){
 			$(location).attr('href','/templates');
@@ -882,6 +884,7 @@ $('.main-sidebar__block-prop-btn_accept-update').click(function () {
 	let name = $(this).parent().parent().find('input').val();
 	let json = getStructureJsonToSave();
 	let id = $(this).attr('data-btn');
+	let html = $('#copy-block').val();
 	$('.await-window').fadeIn(300);
 
 	$.ajax({
@@ -891,7 +894,8 @@ $('.main-sidebar__block-prop-btn_accept-update').click(function () {
 		data: {
 			'id' : id,
 			'name' : name,
-			'json': json
+			'json': json,
+			'html' : html
 		},
 		success: function(data){
 			$('.await-window').fadeOut(300);

@@ -74,6 +74,8 @@ class SiteParser
             ];
         }
 
+        $_SESSION[$hostName] = $productsArr;
+
         return $productsArr[$link];
     }
 }

@@ -29,26 +29,14 @@ class TemplateViewPage
     public function get(ServerRequestInterface $request, ResponseInterface $response,array $args): ResponseInterface
     {
         $id = $args['id'];
-        $json = $this->templatesController->getTemplateViewById($id);
-        $jsonArr = json_decode($json,true);
-        $settings = [];
-
-        //get settings
-        foreach ($jsonArr as $jsonItem) {
-            if($jsonItem['blockName'] == 'settings') {
-                $settings = $jsonItem;
-            }
-        }
-
-        $mailBlocks = $this->mailCreator->finalCreateMail($jsonArr);
-        $siteName = $this->mailCreator->getSiteName($jsonArr);
-
-        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName,$settings);
+        $template = $this->templatesController->getTemplateViewById($id);
+        $html = $template['html'];
+        $html = htmlspecialchars_decode($html);
 
         return new Response(
             200,
             new Headers(['Content-Type' => 'text/html']),
-            (new StreamFactory())->createStream($mail)
+            (new StreamFactory())->createStream($html)
         );
     }
 }

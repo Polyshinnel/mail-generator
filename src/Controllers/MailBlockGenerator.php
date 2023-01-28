@@ -478,9 +478,20 @@ class MailBlockGenerator
 
     private function uploadDataToCache(array $productItem): array {
         $link = $productItem['link'];
+        $urlArr = parse_url($link);
+
+        //Get HostName
+        $hostName = $urlArr['host'];
+
+        //Get link without get request
+        $link = $urlArr['scheme'].'://'.$urlArr['host'].$urlArr['path'];
 
         if(!empty($_SESSION[$link])) {
             return $_SESSION[$link];
+        }
+
+        if(!empty($_SESSION[$hostName])) {
+            return $_SESSION[$hostName][$link];
         }
 
         $productInfo = $this->parser->getProductData($link);

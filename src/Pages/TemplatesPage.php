@@ -54,6 +54,8 @@ class TemplatesPage
         $id = $args['id'];
         $template = $this->templatesController->getTemplateById($id);
         $name = $template['name'];
+        $html = $template['html'];
+        $html = htmlspecialchars_decode($html);
         $jsonArr = json_decode($template['json'],true);
 
         $settings = [];
@@ -90,7 +92,8 @@ class TemplatesPage
         $dataArr = $request->getParsedBody();
         $json = $dataArr['json'];
         $name = $dataArr['name'];
-        $this->templatesController->createTemplate($json,$name);
+        $html = $dataArr['html'];
+        $this->templatesController->createTemplate($json,$html,$name);
 
         return new Response(
             200,
@@ -104,7 +107,8 @@ class TemplatesPage
         $json = $dataArr['json'];
         $id = $dataArr['id'];
         $name = $dataArr['name'];
-        $this->templatesController->updateTemplate($id,$json,$name);
+        $html = $dataArr['html'];
+        $this->templatesController->updateTemplate($id,$json,$html,$name);
 
         return new Response(
             200,

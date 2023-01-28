@@ -14,6 +14,7 @@ final class Templates extends Migration
             $table->string('img','256');
             $table->date('date_create');
             $table->json('json');
+            $table->longText('html');
         });
     }
     public function down()

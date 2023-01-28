@@ -18,7 +18,7 @@ class SiteSettings extends Model
         'site_xml',
         'logo',
         'delivery',
-        'discount'
+        'discount',
     ];
 
     public $timestamps = false;
