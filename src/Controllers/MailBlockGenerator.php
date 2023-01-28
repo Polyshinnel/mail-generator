@@ -491,10 +491,12 @@ class MailBlockGenerator
         }
 
         if(!empty($_SESSION[$hostName])) {
-            return $_SESSION[$hostName][$link];
+            $productInfo = $_SESSION[$hostName][$link];
+        } else {
+            $productInfo = $this->parser->getProductData($link);
         }
 
-        $productInfo = $this->parser->getProductData($link);
+
         $fileName = $this->fileUploader->uploadFileFromLink($productInfo['productImg']);
 
         $_SESSION[$link] = [
