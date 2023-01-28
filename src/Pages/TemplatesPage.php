@@ -58,25 +58,11 @@ class TemplatesPage
         $html = htmlspecialchars_decode($html);
         $jsonArr = json_decode($template['json'],true);
 
-        $settings = [];
-
-        //get settings
-        foreach ($jsonArr as $jsonItem) {
-            if($jsonItem['blockName'] == 'settings') {
-                $settings = $jsonItem;
-            }
-        }
-
-
-        $mailBlocks = $this->mailCreator->finalCreateMail($jsonArr);
-        $siteName = $this->mailCreator->getSiteName($jsonArr);
-
-        $mail = $this->mailBlockGenerator->createMail($mailBlocks,$siteName,$settings);
 
         $data = $this->twig->fetch('template.twig', [
             'title' => $name,
             'json' => $jsonArr,
-            'mail' => $mail,
+            'mail' => $html,
             'id' => $id
         ]);
 
