@@ -218,8 +218,9 @@ body {
   list-style: none;
   width: 100%;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: auto;
   display: none;
+  max-height: 210px;
 }
 .main-sidebar__block-prop-select .main-sidebar__block-prop-select-list li {
   height: 35px;

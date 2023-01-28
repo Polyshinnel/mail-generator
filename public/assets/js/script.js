@@ -183,44 +183,6 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 
 	}
 
-	if(btnData === 'banner-common') {
-		imgIcon = '/assets/images/icons/8.svg';
-		nameStructure = 'Баннер - Общий';
-		let bannerImg = $(this).parent().parent().find('.banner-img').attr('src');
-		let link = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-link input').val();
-		let alt = $(this).parent().parent().find('.main-sidebar__block-prop-input_banner-alt input').val();
-
-		//upload data to server
-		let url = "/uploadImage";
-		let base64ImageContent = bannerImg.replace(/^data:image\/(png|jpg);base64,/, "");
-		base64ImageContent = base64ImageContent.replace(/^data:image\/jpeg;base64,/, "");
-		let blob = base64ToBlob(base64ImageContent, 'image/png');
-		let formData = new FormData();
-		formData.append('userFile', blob);
-		$.ajax({
-			url: url,
-			type: "POST",
-			cache: false,
-			contentType: false,
-			processData: false,
-			data: formData
-		})
-			.done(function(e){
-				let jsonObj = $.parseJSON(e);
-				let bannerImg = jsonObj.fileLink;
-				let structureBlockHeader = createStructureHeader(imgIcon,nameStructure);
-				let structureBlockBody = createStructureBlockBodyOther(bannerImg,btnData,alt,link);
-				structureBlock = createStructure(structureBlockHeader,structureBlockBody,btnData);
-				let structureWrapper = $('.structure-wrapper');
-				structureWrapper.append(structureBlock);
-				structureWrapper.css('display','block');
-				getStructureJson();
-			});
-
-
-	}
-
-
 	if(btnData === 'timer') {
 		imgIcon = '/assets/images/icons/6.svg';
 		nameStructure = 'Таймер';
@@ -315,6 +277,14 @@ $('.main-sidebar__block-prop-btn_accept-main').click(function(){
 	checkAndAddSaveBtns();
 	structureWrapper.css('display','block');
 	getStructureJson();
+
+	//erase all inputs data
+	let inputs = $(this).parent().parent().find('.main-sidebar__block-prop-input input');
+	inputs.each(function () {
+		$(this).val('');
+	})
+
+	$('.sale-block__wrapper').empty();
 });
 
 
@@ -416,7 +386,7 @@ function createStructureBlockBodyProducts(productInfo) {
 
 function createStructureBlockBodyOther(data,btnData,alt = null,link = null,delivery=null,discount=null){
 	if(btnData === 'header') {
-		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
+		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li><li>Typhoon</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 
 	if(btnData === 'banner') {
@@ -436,7 +406,7 @@ function createStructureBlockBodyOther(data,btnData,alt = null,link = null,deliv
 	}
 
 	if(btnData === 'footer') {
-		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
+		return '<div class="main-sidebar__block-prop-select"><div class="main-sidebar__block-prop-input"><label for="">Сайт</label><input type="text" value="'+data+'" readonly><img src="/assets/images/icons/triangle.svg" alt=""></div><ul class="main-sidebar__block-prop-select-list"><li>Joseph Kitchen</li><li>Umbra Shop</li><li>Mason Cash</li><li>Reisenthel</li><li>Monbento</li><li>Guzzini</li><li>Liberty Jones</li><li>Smart Solutions</li><li>Bergenson Bjorn</li><li>Silikomart</li><li>Wildtoys</li><li>SCHLEICH</li><li>Djeco</li><li>SafariToys</li><li>Typhoon</li></ul></div><div class="main-sidebar__block-prop-btns"><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_accept main-sidebar__block-prop-btn_accept_add"><img src="/assets/images/icons/save.svg" alt=""></div><div class="main-sidebar__block-prop-btn main-sidebar__block-prop-btn_decline main-sidebar__block-prop-btn_decline_add"><img src="/assets/images/icons/cross.svg" alt=""></div></div>';
 	}
 }
 

@@ -176,6 +176,17 @@ final class SiteSettings extends Migration
                 'feed_user' => 'kidsberry',
                 'feed_pass' => 'klVm8(0KL%'
             ],
+            [
+                'name' => 'Typhoon',
+                'site_addr' => 'https://typhoonstore.ru/',
+                'site_addr_short' => 'typhoonstore.ru',
+                'site_xml' => 'https://typhoonstore.ru/fullcatalog.xml',
+                'logo' => 'images/logos/typhoonstore.png',
+                'delivery' => 'https://typhoonstore.ru/dostavka-i-oplata',
+                'discount' => 'https://typhoonstore.ru/discount',
+                'feed_user' => 'kidsberry',
+                'feed_pass' => 'klVm8(0KL%'
+            ],
         ];
 
         foreach ($siteSettingsArr as $item) {
