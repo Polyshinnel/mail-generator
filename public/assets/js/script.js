@@ -924,3 +924,15 @@ $(document).on('click','.structure-wrapper__save-delete',function () {
 		}
 	});
 })
+
+$('.main-sidebar-reset-btn').click(function () {
+	$.ajax({
+		url: '/clearSession',
+		method: 'post',
+		dataType: 'html',
+		data: {},
+		success: function(data){
+			getStructureJson();
+		}
+	});
+})

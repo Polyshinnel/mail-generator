@@ -2,6 +2,7 @@
 
 use App\Middlewares\BasicAuthMiddleware;
 use App\Pages\AuthPage;
+use App\Pages\ClearSession;
 use App\Pages\ConstructorPage;
 use App\Pages\GenerateMailPage;
 use App\Pages\IndexPage;
@@ -28,4 +29,5 @@ return static function (App $app): void {
     $app->post('/createTemplate',[TemplatesPage::class,'createTemplate']);
     $app->post('/updateTemplate',[TemplatesPage::class,'updateTemplate']);
     $app->post('/deleteTemplate',[TemplatesPage::class,'deleteTemplate']);
+    $app->post('/clearSession',[ClearSession::class,'get']);
 };

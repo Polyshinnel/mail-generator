@@ -857,4 +857,28 @@ body {
 
 .structure-wrapper__save-delete {
   background: #D30000;
+}
+
+.main-sidebar-reset-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #87819B;
+  border: 1px solid #9184BE;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  height: 50px;
+  margin-left: 15px;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+.main-sidebar-reset-btn:hover {
+  background: #9184BE;
+}
+.main-sidebar-reset-btn p {
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 13px;
+  margin-left: 15px;
 }/*# sourceMappingURL=style.css.map */

@@ -23,7 +23,9 @@ class UploadImage
 
     public function uploadFileFromLink($link): String {
         $uploadDir = __DIR__.'/../../public/assets/uploaded/';
-        $fileName = Date('dmYHis').'.png';
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        $fileName = 'img-'.substr(str_shuffle($permitted_chars), 0, 16).'.png';
         $uploadFile = $uploadDir.$fileName;
         file_put_contents($uploadFile, file_get_contents($link));
         $this->imageProcessing->cropImage($fileName);

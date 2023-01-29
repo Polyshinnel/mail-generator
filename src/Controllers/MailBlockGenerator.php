@@ -640,7 +640,8 @@ class MailBlockGenerator
                 $productImg = $this->addSaleInfo($sales,$fileName);
             }
 
-            $productImg .= '?ver='.time();
+            $ver = $this->randGen(9);
+            $productImg .= '?ver='.$ver;
 
             $productArr[] = [
                 'name' => $productName,
@@ -654,6 +655,16 @@ class MailBlockGenerator
         }
 
         return $productArr;
+    }
+
+    private function randGen(int $num): String {
+        $str = '';
+
+        for($i = 0; $i< $num; $i++) {
+            $str.= rand(1,9);
+        }
+
+        return $str;
     }
 
 }
