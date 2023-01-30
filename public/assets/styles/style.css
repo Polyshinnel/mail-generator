@@ -85,7 +85,7 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  top: 82;
+  top: 82px;
   left: 0;
   overflow-y: auto;
 }
@@ -106,7 +106,6 @@ body {
   left: 300px;
   width: calc(100% - 300px);
   height: auto;
-  padding-bottom: 150px;
   display: flex;
   justify-content: center;
   overflow-y: auto;
@@ -172,7 +171,7 @@ body {
   margin-left: -15px;
 }
 .main-sidebar__blocks .main-sidebar__block {
-  width: 70px;
+  width: 69px;
   height: 77px;
   display: flex;
   flex-direction: column;
@@ -881,4 +880,25 @@ body {
   color: #fff;
   font-size: 13px;
   margin-left: 15px;
+}
+
+.main-sidebar-template {
+  margin-bottom: 20px;
+  width: 100%;
+  display: none;
+}
+.main-sidebar-template a {
+  text-decoration: none;
+  display: flex;
+  margin-top: 7px;
+}
+.main-sidebar-template button {
+  width: 100%;
+  height: 45px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: #6D5BD0;
+  border-radius: 5px;
+  text-transform: uppercase;
 }/*# sourceMappingURL=style.css.map */

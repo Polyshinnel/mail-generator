@@ -167,7 +167,7 @@ class ImageProcessing
         $path = $this->filePath.$filename;
         $img = imagecreatefromjpeg($path);
         $rgb = hexdec('ffffff');
-        $cropped = imagecropauto($img,IMG_CROP_THRESHOLD,0.2,$rgb);
+        $cropped = imagecropauto($img,IMG_CROP_THRESHOLD,0.1,$rgb);
         imagepng($cropped,$path);
         imagedestroy($img);
         imagedestroy($cropped);

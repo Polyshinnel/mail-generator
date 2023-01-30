@@ -4,6 +4,10 @@
 <main>
     <div class="main-wrapper">
         <div class="main-sidebar">
+            <div class="main-sidebar-template" style="display: block">
+                <button class="code-copy code-copy_side">Скопировать код</button>
+                <a href="/templates/zip/{{ id }}"><button class="create-zip__side">Получить .zip</button></a>
+            </div>
             <div class="main-sidebar__header" style="display: flex">
                 <div class="main-sidebar__header-btn" data-item="blocks">
                     <p>Блоки</p>
@@ -1108,11 +1112,8 @@
                 <div class="main-render__mail-block">
                     {{ mail | raw }}
                 </div>
-                <div class="btn-block btn-block_blue code-copy">
-                    <p>Скопировать код</p>
-                </div>
 
-                <textarea name="" id="copy-block" cols="30" rows="10" value="{{ mail | raw }}"></textarea>
+                <textarea name="" id="copy-block" cols="30" rows="10" value="{{ mail }}"></textarea>
             </div>
         </div>
     </div>

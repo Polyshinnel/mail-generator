@@ -18,6 +18,7 @@ return static function (App $app): void {
         $group->get('constructor',[ConstructorPage::class,'get']);
         $group->get('templates',[TemplatesPage::class,'get']);
         $group->get('templates/template/{id}',[TemplatesPage::class,'getTemplate']);
+        $group->get('templates/zip/{id}',[TemplatesPage::class,'getTemplateZip']);
 
     })->add(BasicAuthMiddleware::class);
 
