@@ -956,24 +956,28 @@ $('.create-zip__side').click(function () {
 		dataType: 'html',
 		data: {},
 		success: function (data){
-			getStructureJson();
-			let json = getStructureJsonToSave();
-			let html = $('#copy-block').val();
-			$.ajax({
-				url: '/updateTemplate',
-				method: 'post',
-				dataType: 'html',
-				data: {
-					'id' : id,
-					'name' : name,
-					'json': json,
-					'html' : html
-				},
-				success: function(data){
-					let url = '/templates/zip/'+id;
-					$(location).attr('href',url);
+			let updateData = getStructureJson();
+			updateData.promise().done(function(){
+					let json = getStructureJsonToSave();
+					let html = $('#copy-block').val();
+					$.ajax({
+						url: '/updateTemplate',
+						method: 'post',
+						dataType: 'html',
+						data: {
+							'id' : id,
+							'name' : name,
+							'json': json,
+							'html' : html
+						},
+						success: function(data){
+							let url = '/templates/zip/'+id;
+							$(location).attr('href',url);
+						}
+					})
 				}
-			})
+			)
+
 		}
 	})
 })
