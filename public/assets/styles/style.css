@@ -887,11 +887,6 @@ body {
   width: 100%;
   display: none;
 }
-.main-sidebar-template a {
-  text-decoration: none;
-  display: flex;
-  margin-top: 7px;
-}
 .main-sidebar-template button {
   width: 100%;
   height: 45px;
@@ -901,4 +896,7 @@ body {
   background: #6D5BD0;
   border-radius: 5px;
   text-transform: uppercase;
+}
+.main-sidebar-template button + button {
+  margin-top: 7px;
 }/*# sourceMappingURL=style.css.map */

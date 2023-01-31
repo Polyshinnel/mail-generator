@@ -945,3 +945,35 @@ $('.main-sidebar-reset-btn').click(function () {
 		}
 	});
 })
+
+$('.create-zip__side').click(function () {
+	let id = $(this).attr('data-id');
+	let name = $(this).attr('data-name');
+
+	$.ajax({
+		url: '/clearSession',
+		method: 'post',
+		dataType: 'html',
+		data: {},
+		success: function (data){
+			getStructureJson();
+			let json = getStructureJsonToSave();
+			let html = $('#copy-block').val();
+			$.ajax({
+				url: '/updateTemplate',
+				method: 'post',
+				dataType: 'html',
+				data: {
+					'id' : id,
+					'name' : name,
+					'json': json,
+					'html' : html
+				},
+				success: function(data){
+					let url = '/templates/zip/'+id;
+					$(location).attr('href',url);
+				}
+			})
+		}
+	})
+})
