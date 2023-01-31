@@ -571,25 +571,11 @@ function getStructureJson() {
 	console.log(structureArr);
 
 	let json = JSON.stringify(structureArr);
-	
-	$.ajax({
-		url: '/generateMail',
-		method: 'post',
-		dataType: 'html',
-		data: {'json': json},
-		success: function(data){
-			$('.main-render__mail-block-empty').remove();
-			$('.main-render__mail-block').empty();
-			$('.main-render__mail-block').append(data);
-			$('#copy-block').val('');
-			$('#copy-block').val(data);
-		}
-	});
 
 	let url = window.location.pathname;
 	let urlArr = url.split('/');
 	let pathname = urlArr[urlArr.length-2];
-	if(pathname == 'template') {
+	if(pathname === 'template') {
 		let id = urlArr[urlArr.length-1];
 		let btns = $('.structure-wrapper__save');
 		if(!btns.length) {
@@ -597,6 +583,22 @@ function getStructureJson() {
 			$('.structure-wrapper').append(btnBlock);
 		}
 	}
+	
+	$.ajax({
+		url: '/generateMail',
+		method: 'post',
+		dataType: 'html',
+		data: {'json': json},
+		success: function(data){
+			let copyBlock = $('#copy-block');
+			let renderMailBlock = $('.main-render__mail-block');
+			$('.main-render__mail-block-empty').remove();
+			renderMailBlock.empty();
+			renderMailBlock.append(data);
+			copyBlock.val('');
+			copyBlock.val(data);
+		}
+	});
 
 
 }
@@ -956,10 +958,13 @@ $('.create-zip__side').click(function () {
 		dataType: 'html',
 		data: {},
 		success: function (data){
-			let updateData = getStructureJson();
-			updateData.promise().done(function(){
-					let json = getStructureJsonToSave();
-					let html = $('#copy-block').val();
+			let json = getStructureJsonToSave();
+			$.ajax({
+				url: '/generateMail',
+				method: 'post',
+				dataType: 'html',
+				data: {'json': json},
+				success: function(data){
 					$.ajax({
 						url: '/updateTemplate',
 						method: 'post',
@@ -968,7 +973,7 @@ $('.create-zip__side').click(function () {
 							'id' : id,
 							'name' : name,
 							'json': json,
-							'html' : html
+							'html' : data
 						},
 						success: function(data){
 							let url = '/templates/zip/'+id;
@@ -976,7 +981,7 @@ $('.create-zip__side').click(function () {
 						}
 					})
 				}
-			)
+			})
 
 		}
 	})
