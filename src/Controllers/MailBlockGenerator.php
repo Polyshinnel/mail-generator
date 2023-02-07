@@ -256,6 +256,10 @@ class MailBlockGenerator
         if($nameBlock == 'single-product') {
             $products = $productsBlock['products'];
             $productsData = $this->productProcessing($products,$nameBlock,$settings);
+            $priceBlock = '<s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>';
+            if($productsData[0]['oldPrice'] == 0) {
+                $priceBlock = '';
+            }
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="center" style="background-color: #F5F5F5">
@@ -266,7 +270,7 @@ class MailBlockGenerator
                       <div style="text-align: left; padding: 0 24px 24px">
                         <div style="font-size: 16px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
+                          '.$priceBlock.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 16px; line-height: 23px; padding-right: 10px;">
@@ -282,6 +286,15 @@ class MailBlockGenerator
         if($nameBlock == 'two-product') {
             $products = $productsBlock['products'];
             $productsData = $this->productProcessing($products,$nameBlock,$settings);
+            $priceBlock1 = '<s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>';
+            if($productsData[0]['oldPrice'] == 0) {
+                $priceBlock1 = '';
+            }
+
+            $priceBlock2 = '<s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>';
+            if($productsData[1]['oldPrice'] == 0) {
+                $priceBlock2 = '';
+            }
 
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="top">
@@ -293,7 +306,7 @@ class MailBlockGenerator
                           height="255" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
+                          '.$priceBlock1.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -311,7 +324,7 @@ class MailBlockGenerator
                           height="255" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
+                          '.$priceBlock2.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -328,6 +341,16 @@ class MailBlockGenerator
             $products = $productsBlock['products'];
             $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
+            $priceBlock1 = '<s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>';
+            if($productsData[0]['oldPrice'] == 0) {
+                $priceBlock1 = '';
+            }
+
+            $priceBlock2 = '<s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>';
+            if($productsData[1]['oldPrice'] == 0) {
+                $priceBlock2 = '';
+            }
+
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="left">
@@ -338,7 +361,7 @@ class MailBlockGenerator
                           height="350" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
+                          '.$priceBlock1.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -355,7 +378,7 @@ class MailBlockGenerator
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
+                          '.$priceBlock2.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -372,6 +395,16 @@ class MailBlockGenerator
             $products = $productsBlock['products'];
             $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
+            $priceBlock1 = '<s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>';
+            if($productsData[0]['oldPrice'] == 0) {
+                $priceBlock1 = '';
+            }
+
+            $priceBlock2 = '<s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>';
+            if($productsData[1]['oldPrice'] == 0) {
+                $priceBlock2 = '';
+            }
+
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="middle">
                   <td align="left">
@@ -382,7 +415,7 @@ class MailBlockGenerator
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
+                          '.$priceBlock1.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -399,7 +432,7 @@ class MailBlockGenerator
                           height="350" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
+                          '.$priceBlock2.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -416,6 +449,21 @@ class MailBlockGenerator
             $products = $productsBlock['products'];
             $productsData = $this->productProcessing($products,$nameBlock,$settings);
 
+            $priceBlock1 = '<s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>';
+            if($productsData[0]['oldPrice'] == 0) {
+                $priceBlock1 = '';
+            }
+
+            $priceBlock2 = '<s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>';
+            if($productsData[1]['oldPrice'] == 0) {
+                $priceBlock2 = '';
+            }
+
+            $priceBlock3 = '<s style="color: #000;">'.$productsData[2]['oldPrice'].' руб.</s>';
+            if($productsData[2]['oldPrice'] == 0) {
+                $priceBlock3 = '';
+            }
+
             $blockData = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 13px 0;">
                 <tr valign="top">
                   <td align="left">
@@ -426,7 +474,7 @@ class MailBlockGenerator
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[0]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[0]['oldPrice'].' руб.</s>
+                          '.$priceBlock1.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -443,7 +491,7 @@ class MailBlockGenerator
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[1]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[1]['oldPrice'].' руб.</s>
+                          '.$priceBlock2.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
@@ -460,7 +508,7 @@ class MailBlockGenerator
                           height="162" style="margin-bottom: 13px;">
                         <div style="font-size: 12px;line-height: 23px;">
                           <span style="color: #39B54A;">'.$productsData[2]['price'].' руб.</span>
-                          <s style="color: #000;">'.$productsData[2]['oldPrice'].' руб.</s>
+                          '.$priceBlock3.'
                         </div>
                         <span class="product__title"
                           style="color: #000000; font-size: 12px; line-height: 23px; padding-right: 10px;">
