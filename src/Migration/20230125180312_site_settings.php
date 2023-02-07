@@ -198,6 +198,17 @@ final class SiteSettings extends Migration
                 'feed_user' => 'kidsberry',
                 'feed_pass' => 'klVm8(0KL%'
             ],
+            [
+                'name' => 'PaolaReina',
+                'site_addr' => 'https://paolareinas.ru/',
+                'site_addr_short' => 'paolareinas.ru',
+                'site_xml' => 'https://paolareinas.ru/fullcatalog.xml',
+                'logo' => 'images/logos/paolareina.png',
+                'delivery' => 'https://paolareinas.ru/dostavka-i-oplata',
+                'discount' => 'https://paolareinas.ru/discounts',
+                'feed_user' => 'kidsberry',
+                'feed_pass' => 'klVm8(0KL%'
+            ],
         ];
 
         foreach ($siteSettingsArr as $item) {
