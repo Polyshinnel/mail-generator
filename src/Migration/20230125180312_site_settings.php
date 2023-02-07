@@ -187,6 +187,17 @@ final class SiteSettings extends Migration
                 'feed_user' => 'kidsberry',
                 'feed_pass' => 'klVm8(0KL%'
             ],
+            [
+                'name' => 'Likelunch',
+                'site_addr' => 'https://likelunch.ru/',
+                'site_addr_short' => 'likelunch.ru',
+                'site_xml' => 'https://likelunch.ru/fullcatalog.xml',
+                'logo' => 'images/logos/likelunch.png',
+                'delivery' => 'https://likelunch.ru/dostavka-i-oplata',
+                'discount' => 'https://likelunch.ru/discounts',
+                'feed_user' => 'kidsberry',
+                'feed_pass' => 'klVm8(0KL%'
+            ],
         ];
 
         foreach ($siteSettingsArr as $item) {

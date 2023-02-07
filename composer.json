@@ -30,6 +30,7 @@
         "microweber/screen": "^1.0",
         "ext-simplexml": "*",
         "ext-mbstring": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "phpgif/phpgif": "^3.0"
     }
 }

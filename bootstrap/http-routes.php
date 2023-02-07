@@ -5,6 +5,7 @@ use App\Pages\AuthPage;
 use App\Pages\ClearSession;
 use App\Pages\ConstructorPage;
 use App\Pages\GenerateMailPage;
+use App\Pages\GifPage;
 use App\Pages\IndexPage;
 use App\Pages\TemplatesPage;
 use App\Pages\TemplateViewPage;
@@ -23,6 +24,7 @@ return static function (App $app): void {
     })->add(BasicAuthMiddleware::class);
 
     $app->get('/auth',[AuthPage::class,'get']);
+    $app->get('/getGif/{id}',[GifPage::class,'get']);
     $app->post('/authData',[AuthPage::class,'authorize']);
     $app->post('/uploadImage',[UploadPage::class,'get']);
     $app->post('/generateMail',[GenerateMailPage::class,'get']);
