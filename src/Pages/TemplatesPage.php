@@ -143,12 +143,15 @@ class TemplatesPage
         $this->zipController->zipLetter($json,$html);
         $zip = __DIR__.'/../../public/assets/letter.zip';
 
+        $name = $template['name'];
+        $name = $this->utils->translit($name);
+
 
         return new Response(
             200,
             new Headers([
                 'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'attachment; filename="letter.zip"'
+                'Content-Disposition' => 'attachment; filename="'.$name.'.zip"'
             ]),
             (new StreamFactory())->createStreamFromFile($zip)
         );
