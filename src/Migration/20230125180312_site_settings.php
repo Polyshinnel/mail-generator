@@ -209,6 +209,17 @@ final class SiteSettings extends Migration
                 'feed_user' => 'kidsberry',
                 'feed_pass' => 'klVm8(0KL%'
             ],
+            [
+                'name' => 'Britov',
+                'site_addr' => 'https://britov.me/',
+                'site_addr_short' => 'britov.me',
+                'site_xml' => 'https://britov.me/fullcatalog.xml',
+                'logo' => 'images/logos/britov.png',
+                'delivery' => 'https://britov.me/dostavka-i-oplata',
+                'discount' => 'https://britov.me/discount',
+                'feed_user' => 'kidsberry',
+                'feed_pass' => 'klVm8(0KL%'
+            ],
         ];
 
         foreach ($siteSettingsArr as $item) {
