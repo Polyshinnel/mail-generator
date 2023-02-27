@@ -56,7 +56,7 @@ class SiteParser
             $productModel = trim($productModel);
             $productName = $productPrefix.' '.$productModel;
             $productName = trim($productName);
-            $productName = $this->utils->mbUcfirst($productName);
+            $productName = (String)$offer->name;
 
             $productPictures = $offer->picture;
             $productPicture = (String)$productPictures[0];
