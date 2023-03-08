@@ -16,8 +16,8 @@ class Database
             'database' => $db['db_name'],
             'username' => $db['db_user'],
             'password' => $db['db_pass'],
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'charset' => $db['charset'],
+            'collation' => $db['collation'],
             'prefix' => '',
         ]);
 

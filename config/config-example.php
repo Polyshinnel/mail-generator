@@ -21,7 +21,9 @@ return [
             'db_name' => 'dbName',
             'db_user' => 'dbUser',
             'db_pass' => 'dbPass',
-            'db_port' => '3306'
+            'db_port' => '3306',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
         ],
         'twig' => [
             'debug' => true,
