@@ -583,7 +583,7 @@ class MailBlockGenerator
 
         if(!$settings['ignoreSite']) {
             if((!empty($oldPrice)) && ($oldPrice > $price)) {
-                $percent = ceil(($price/$oldPrice)*100);
+                $percent = round(($price/$oldPrice)*100);
                 $percent = 100 - $percent;
                 $color = $settings['saleColor1'];
                 $salesArr[] = [
@@ -599,7 +599,7 @@ class MailBlockGenerator
             if(empty($oldPrice)) {
                 $oldPrice = $price;
             }
-            $price = ceil($price*((100 - $settings['salePercent'])/100));
+            $price = ceil($oldPrice*((100 - $settings['salePercent'])/100));
             $salesArr[] = [
                 'text' => $text,
                 'color' => $color

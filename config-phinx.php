@@ -17,7 +17,9 @@ return [
             'name' => $dbSettings['db_name'],
             'user' => $dbSettings['db_user'],
             'pass' => $dbSettings['db_pass'],
-            'port' => $dbSettings['db_port']
+            'port' => $dbSettings['db_port'],
+            'charset' => $dbSettings['charset'],
+            'collation' => $dbSettings['collation'],
         ]
     ]
 ];
